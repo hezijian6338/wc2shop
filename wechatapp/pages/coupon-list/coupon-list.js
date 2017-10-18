@@ -1,5 +1,6 @@
 // pages/coupon-list/coupon-list.js
 var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 var share_count = 0;
 Page({
@@ -20,11 +21,14 @@ Page({
       mask: true,
     });
     app.request({
-      url: api.default.coupon_list,
+      url: api1.default.coupon_list,
+      data: {
+        limit: 10,
+      },
       success: function (res) {
         if (res.code == 0) {
           page.setData({
-            coupon_list: res.data.list
+            coupon_list: res.data.rows
           });
         }
       },

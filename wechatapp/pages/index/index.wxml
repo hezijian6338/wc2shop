@@ -81,7 +81,7 @@
                 <view class='coupon-list flex-row'>
                     <block wx:for='{{coupon_list}}' wx:for-item="item" wx:for-index="index" wx:key="item.id">
                         <view class='coupon-one flex-grow-0'>
-                            <image src='{{item.is_receive == 0 ?"/images/icon-coupon-index.png":"/images/icon-coupon-no.png"}}'></image>
+                            <image src='{{item.isReceive == 0 ?"/images/icon-coupon-index.png":"/images/icon-coupon-no.png"}}'></image>
                             <view class='coupon-content flex-row'>
                                 <view class='flex-grow-0 coupon-left'>
                                     <view class='flex-x-center sub flex-y-center'>
