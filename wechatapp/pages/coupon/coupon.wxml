@@ -31,7 +31,7 @@
                         <view class="flex-grow-1" style="font-size: 13pt;font-weight: bold">{{item.event_desc}}</view>
                         <view class="flex-grow-0" style="font-size: 9pt"></view>
                     </view>
-                    <view style="font-size: 8pt;color: #888">{{item.begin_time}} ~ {{item.end_time}}</view>
+                    <view style="font-size: 8pt;color: #888">{{item.beginTime}} ~ {{item.couponEndTime}}</view>
                 </view>
             </view>
         </view>

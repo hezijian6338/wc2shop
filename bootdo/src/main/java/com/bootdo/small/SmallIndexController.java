@@ -475,4 +475,48 @@ public class SmallIndexController {
 		}
 		return r;
 	}
+	/**
+	 * 优惠劵列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/default/coupon-list")
+	public R couponList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<CouponDO> tArticleList = couponService.list(query);
+			int total = couponService.count(query);
+			PageUtils pageUtils = new PageUtils(tArticleList, total);
+			r.put("data",pageUtils);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+	/**
+	 * 我领取优惠劵列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/coupon/index")
+	public R userCoupon(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<CouponDO> tArticleList = couponService.list(query);
+			int total = couponService.count(query);
+			PageUtils pageUtils = new PageUtils(tArticleList, total);
+			r.put("data",pageUtils);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 }

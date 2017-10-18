@@ -1,5 +1,5 @@
 // pages/coupon/coupon.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -26,14 +26,14 @@ Page({
             title: "加载中",
         });
         app.request({
-            url: api.coupon.index,
+            url: api1.coupon.index,
             data: {
                 status: page.data.status,
             },
             success: function (res) {
                 if (res.code == 0) {
                     page.setData({
-                        list: res.data.list,
+                        list: res.data.rows,
                     });
                 }
             },

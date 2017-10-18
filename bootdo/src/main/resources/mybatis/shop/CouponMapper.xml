@@ -8,7 +8,7 @@
 	</select>
 	<select id="getUserCoupon" resultType="com.bootdo.shop.domain.CouponDO">
 select `id`,`addTime`,`status`,`amount`,`begin_time`,`coupon_count`,`coupon_end_time`,`coupon_name`,`coupon_order_amount`,`pic`,`is_receive`,`type` from t_coupon t LEFT JOIN t_user_coupon up on t.id=up.coupon_id  where up.user_id=#{value}
-	  
+
 	</select>
 	<select id="list" resultType="com.bootdo.shop.domain.CouponDO">
 		select `id`,`addTime`,`status`,`amount`,`begin_time`,`coupon_count`,`coupon_end_time`,`coupon_name`,`coupon_order_amount`,`pic`,`is_receive`,`type` from t_coupon
