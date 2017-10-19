@@ -1,5 +1,8 @@
 package com.bootdo.small;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import com.bootdo.common.utils.JSONUtils;
 import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
@@ -12,10 +15,13 @@ import com.bootdo.shop.domain.TBrandDO;
 import com.bootdo.shop.domain.TCartDO;
 import com.bootdo.shop.domain.TGoodsDO;
 import com.bootdo.shop.domain.TGoodsTypeDO;
+import com.bootdo.shop.domain.TMemberDO;
 import com.bootdo.shop.domain.TReplyDO;
 import com.bootdo.shop.domain.TStoreDO;
 import com.bootdo.shop.domain.TopicDO;
 import com.bootdo.shop.service.*;
+import com.bootdo.utils.JsonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -26,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +70,10 @@ public class SmallIndexController {
 	private TCartService tCartService;
 	@Autowired
 	private TReplyService tReplyService;
-
-
+	@Autowired
+	private TMemberService tMemberService;
+	@Autowired
+	private WxMaService wxService;
 
 
 	/**
@@ -395,7 +404,7 @@ public class SmallIndexController {
 	 * @return
 	 */
 	@ResponseBody
-	@GetMapping("/default/cat-list")
+	@GetMapping("/cart/cart-list")
 	public R cartList(@RequestParam Map<String, Object> params){
 		params.put("offset", 0);
 		R r=new R();
@@ -404,6 +413,34 @@ public class SmallIndexController {
 			List<TCartDO> tArticleList = tCartService.list(query);
 			int total = tCartService.count(query);
 			PageUtils pageUtils = new PageUtils(tArticleList, total);
+			r.put("data",pageUtils);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+	/**
+	 * 分类列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/default/cat-list")
+	public R catList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<TGoodsTypeDO> tGoodsTypeDOS = tGoodsTypeService.list(query);
+			int total = tGoodsTypeService.count(query);
+			for (TGoodsTypeDO gt : tGoodsTypeDOS){
+				params.clear();
+				params.put("typeid",gt.getId());
+				List<TGoodsDO> goodsDOList = tGoodsService.list(params);
+				gt.setGoods_list(goodsDOList);
+			}
+			PageUtils pageUtils = new PageUtils(tGoodsTypeDOS, total);
 			r.put("data",pageUtils);
 		}catch (Exception e){
 			e.printStackTrace();
@@ -517,6 +554,62 @@ public class SmallIndexController {
 			e.printStackTrace();
 			return R.error();
 		}
+		return r;
+	}
+
+	/**
+	 * 店铺详情
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/password/login")
+	public R login(HttpServletRequest req)throws Exception{
+		R r=new R();
+		String code = req.getParameter("code");
+		if (StringUtils.isBlank(code)) {
+			System.out.println("code is empty");
+		}
+			WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+		Map<String, Object> params = new HashMap<>();
+		params.put("password",session.getOpenid());
+		TMemberDO seMember = tMemberService.selectOne(params);
+		if (seMember == null){
+//			System.out.println(session.getSessionKey());
+//			System.out.println(session.getOpenid());
+//			System.out.println(session.getExpiresin().toString());
+//			System.out.println(JsonUtils.toJson(session));
+			String userInfo = req.getParameter("userInfo");
+			System.out.println(userInfo);
+			Map<String,Object> me = JSONUtils.jsonToMap(userInfo);
+			TMemberDO m =new TMemberDO();
+			m.setImg(me.get("avatarUrl").toString());
+			if ("1".equals(me.get("gender").toString())){
+				m.setSex("男");
+			}else{
+				m.setSex("女");
+			}
+			m.setPassword(session.getOpenid());
+			m.setAddress(me.get("country").toString()+"-"+me.get("province").toString()+"-"+me.get("city").toString());
+			m.setAddtime(new Date());
+			m.setGold(0);
+			m.setStatus(0);
+			m.setStoreid(1L);
+			m.setTruename(me.get("nickName").toString());
+			m.setUsername(me.get("nickName").toString());
+
+			try {
+				int i =tMemberService.save(m);
+				r.put("data",tMemberService.get(m.getId()));
+			}catch (Exception e){
+				e.printStackTrace();
+				return R.error();
+			}
+		}else{
+			r.put("data",seMember);
+		}
+
 		return r;
 	}
 }

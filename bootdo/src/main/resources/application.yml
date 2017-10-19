@@ -23,3 +23,11 @@ mybatis:
     map-underscore-to-camel-case: true
   mapper-locations: mybatis/**/*Mapper.xml
   typeAliasesPackage: com.bootdo.**.domain
+
+wechat:
+  miniapp:
+    appid: wx15d4269d3210863d
+    secret: d60d341206e2d07f8c4c2bb29580b0c6
+    token: weixin
+    aesKey: 111
+    msgDataFormat: JSON

@@ -1,5 +1,7 @@
 package com.bootdo.common.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,7 +19,12 @@ public class Query extends LinkedHashMap<String, Object> {
 		this.putAll(params);
 		// 分页参数
 		this.offset = Integer.parseInt(params.get("offset").toString());
-		this.limit = Integer.parseInt(params.get("limit").toString());
+		if(StringUtils.isEmpty(params.get("limit").toString())){
+			this.limit=10;
+		}else{
+			this.limit = Integer.parseInt(params.get("limit").toString());
+		}
+
 		this.put("offset", offset);
 		this.put("page", offset / limit + 1);
 		this.put("limit", limit);

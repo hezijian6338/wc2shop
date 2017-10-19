@@ -1,5 +1,5 @@
 // pages/cat/cat.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -34,11 +34,14 @@ Page({
             });
         }
         app.request({
-            url: api.default.cat_list,
+            url: api1.default.cat_list,
+            data:{
+              limit:15
+            },
             success: function (res) {
                 if (res.code == 0) {
                     page.setData({
-                        cat_list: res.data.list,
+                        cat_list: res.data.rows,
                         current_cat: null,
                     });
                     wx.setStorageSync("cat_list", res.data.list);

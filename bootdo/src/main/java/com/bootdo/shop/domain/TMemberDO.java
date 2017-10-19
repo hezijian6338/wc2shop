@@ -39,6 +39,24 @@ public class TMemberDO implements Serializable {
 	private String address;
 	//商铺
 	private Long storeid;
+private String sex;
+private String img;
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
 
 	/**
 	 * 设置：

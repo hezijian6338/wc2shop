@@ -20,12 +20,12 @@ var api1 = {
         topic: _api_root + "default/topic",
     },
     cart: {
-        list: _api_root + 'cart/list',
+        list: _api_root + 'cart/cart-list',
         add_cart: _api_root + 'cart/add-cart',
         delete: _api_root + 'cart/delete',
     },
     passport: {
-        login: _api_root + 'passport/login',
+        login: _api_root + 'password/login',
         on_login: _api_root + 'passport/on-login',
     },
     order: {

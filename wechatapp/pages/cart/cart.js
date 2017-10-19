@@ -1,5 +1,5 @@
 // cart.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -39,16 +39,21 @@ Page({
 
     getCartList: function () {
         var page = this;
+        var access_token = wx.getStorageSync("access_token");
         //wx.showNavigationBarLoading();
         page.setData({
             show_no_data_tip: false,
         });
         app.request({
-            url: api.cart.list,
+            url: api1.cart.list,
+            data:{
+              userid:access_token,
+              limit:15
+            },
             success: function (res) {
                 if (res.code == 0) {
                     page.setData({
-                        cart_list: res.data.list,
+                        cart_list: res.data.rows,
                         total_price: 0.00,
                         cart_check_all: false,
                         show_cart_edit: false,

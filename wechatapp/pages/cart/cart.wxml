@@ -41,12 +41,12 @@
 
             <view class="flex-grow-1 flex-row">
                 <view class="flex-grow-0">
-                    <image class="goods-pic" mode="aspectFill" src="{{item.goods_pic}}"/>
+                    <image class="goods-pic" mode="aspectFill" src="https://jdweixin.tunnel.qydev.com/upload/project/{{item.img}}"/>
                 </view>
                 <view class="flex-grow-1 flex-col">
                     <view class="flex-grow-1">
                         <view class="goods-name">
-                            <navigator url="/pages/goods/goods?id={{item.goods_id}}">{{item.goods_name}}</navigator>
+                            <navigator url="/pages/goods/goods?id={{item.goodid}}">{{item.goodsname}}</navigator>
                         </view>
                         <view class="attr-list">
                             <view class="attr-item" wx:for="{{item.attr_list}}" wx:for-item="attr">
@@ -55,7 +55,7 @@
                         </view>
                     </view>
                     <view class="flex-grow-0 flex-row">
-                        <view class="flex-grow-1 num">×{{item.num}}</view>
+                        <view class="flex-grow-1 num">×{{item.count}}</view>
                         <view class="flex-grow-0 price">￥:{{item.price}}</view>
                     </view>
                 </view>

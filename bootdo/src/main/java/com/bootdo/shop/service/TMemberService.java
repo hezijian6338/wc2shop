@@ -30,5 +30,5 @@ public interface TMemberService {
 
     TMemberDO checkUser(String username, String password);
 
-	Object selectOne(Map<String, Object> params);
+	TMemberDO selectOne(Map<String, Object> params);
 }

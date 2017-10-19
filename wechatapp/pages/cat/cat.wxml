@@ -51,7 +51,7 @@
 
 </view>
 
-<view wx:if="{{store.cat_style==2||store.cat_style==4}}" style="height: 100%;padding-top: 100rpx" class="flex-row">
+<view  style="height: 100%;padding-top: 100rpx" class="flex-row">
     <view class="flex-grow-0" style="height:100%;background: #fff">
         <scroll-view class="cat-list" scroll-y="true" style="height: 100%;width: 204rpx">
             <view bindtap="catItemClick"
@@ -68,7 +68,7 @@
                          scroll-top="{{sub_cat_list_scroll_top}}">
 
                 <!-- 大图模式（开启侧栏） -->
-                <block wx:if="{{store.cat_style==2}}">
+                <block>
                     <block wx:if="{{current_cat}}">
                         <block wx:for="{{current_cat.list}}">
                             <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
