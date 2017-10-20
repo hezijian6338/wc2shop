@@ -1,5 +1,5 @@
 // pages/article-detail/article-detail.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 var WxParse = require('../../wxParse/wxParse.js');
 Page({
@@ -15,7 +15,7 @@ Page({
     onLoad: function (options) {
         var page = this;
         app.request({
-            url: api.default.article_detail,
+            url: api1.default.article_detail,
             data: {
                 id: options.id,
             },
@@ -24,7 +24,7 @@ Page({
                     wx.setNavigationBarTitle({
                         title: res.data.title,
                     });
-                    WxParse.wxParse("content", "html", res.data.content, page);
+                    WxParse.wxParse("content", "html", res.data.data, page);
                 }
                 if (res.code == 1) {
                     wx.showModal({

@@ -1,5 +1,5 @@
 // pages/article-list/article-list.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -17,14 +17,13 @@ Page({
         var page = this;
         wx.showLoading();
         app.request({
-            url: api.default.article_list,
+            url: api1.default.article_list,
             data: {
-                cat_id: 2,
             },
             success: function (res) {
                 wx.hideLoading();
                 page.setData({
-                    article_list: res.data.list,
+                    article_list: res.data.rows,
                 });
             }
         });

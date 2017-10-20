@@ -1,5 +1,5 @@
 // pages/cash/cash.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -36,11 +36,11 @@ Page({
       share_setting: share_setting
     });
     app.request({
-      url: api.share.get_price,
+      url: api1.share.get_price,
       success: function (res) {
         if (res.code == 0) {
           page.setData({
-            price: res.data.price.price,
+            price: res.data.data.price,
           });
         }
       }
@@ -98,7 +98,7 @@ Page({
       return;
     }
     app.request({
-      url: api.share.apply,
+      url: api1.share.apply,
       method: 'POST',
       data: e.detail.value,
       success: function (res) {

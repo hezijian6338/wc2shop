@@ -1,9 +1,9 @@
 // order.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 var is_no_more = false;
 var is_loading = false;
-var p = 2;
+var p = 15;
 Page({
 
     /**
@@ -24,7 +24,7 @@ Page({
         var page = this;
         is_no_more = false;
         is_loading = false;
-        p = 2;
+        p = 15;
         page.loadOrderList(options.status || -1);
         var pages = getCurrentPages();
         if (pages.length < 2) {
@@ -46,14 +46,14 @@ Page({
             mask: true,
         });
         app.request({
-            url: api.order.list,
+            url: api1.order.list,
             data: {
                 status: page.data.status,
             },
             success: function (res) {
                 if (res.code == 0) {
                     page.setData({
-                        order_list: res.data.list,
+                        order_list: res.data.rows,
                     });
                 }
                 page.setData({
@@ -73,10 +73,10 @@ Page({
             return;
         is_loading = true;
         app.request({
-            url: api.order.list,
+            url: api1.order.list,
             data: {
                 status: page.data.status,
-                page: p,
+                limit: p,
             },
             success: function (res) {
                 if (res.code == 0) {

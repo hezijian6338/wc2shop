@@ -1,5 +1,5 @@
 // pages/express-detail/express-detail.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -23,9 +23,9 @@ Page({
             title: "正在加载",
         });
         app.request({
-            url: api.order.express_detail,
+            url: api1.order.express_detail,
             data: {
-                order_id: options.id,
+                id: options.id,
             },
             success: function (res) {
                 wx.hideLoading();

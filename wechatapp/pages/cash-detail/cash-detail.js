@@ -1,5 +1,5 @@
 // pages/cash-detail/cash-detail.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 var is_no_more = false;
 var is_loading = false;
@@ -49,14 +49,14 @@ Page({
       mask: true,
     });
     app.request({
-      url: api.share.cash_detail,
+      url: api1.share.cash_detail,
       data: {
         status: page.data.status,
       },
       success: function (res) {
         if (res.code == 0) {
           page.setData({
-            cash_list: res.data.list,
+            cash_list: res.data.rows,
           });
         }
         page.setData({
@@ -99,7 +99,7 @@ Page({
       return;
     is_loading = true;
     app.request({
-      url: api.share.cash_detail,
+      url: api1.share.cash_detail,
       data: {
         status: page.data.status,
         page: p,

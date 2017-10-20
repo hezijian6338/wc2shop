@@ -1,5 +1,5 @@
 // pages/favorite/favorite.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -12,13 +12,13 @@ Page({
             list: null,
             is_more: true,
             is_loading: false,
-            page: 1,
+            page: 15,
         },
         topic: {
             list: null,
             is_more: true,
             is_loading: false,
-            page: 1,
+            page: 15,
         }
     },
 
@@ -28,11 +28,11 @@ Page({
     onLoad: function (options) {
         this.loadGoodsList({
             reload: true,
-            page: 1,
+            page: 15,
         });
         this.loadTopicList({
             reload: true,
-            page: 1,
+            page: 15,
         });
 
     },
@@ -64,20 +64,20 @@ Page({
             goods: page.data.goods,
         });
         app.request({
-            url: api.user.favorite_list,
+            url: api1.user.favorite_list,
             data: {
-                page: args.page,
+                limit: args.page,
             },
             success: function (res) {
                 if (res.code == 0) {
                     if (args.reload) {
-                        page.data.goods.list = res.data.list;
+                        page.data.goods.list = res.data.rows;
                     }
                     if (args.loadmore) {
-                        page.data.goods.list = page.data.goods.list.concat(res.data.list);
+                        page.data.goods.list = page.data.goods.list.concat(res.data.rows);
                     }
                     page.data.goods.page = args.page;
-                    page.data.goods.is_more = res.data.list.length > 0;
+                    page.data.goods.is_more = res.data.rows.length > 0;
                     page.setData({
                         goods: page.data.goods,
                     });
@@ -113,20 +113,20 @@ Page({
             topic: page.data.topic,
         });
         app.request({
-            url: api.user.topic_favorite_list,
+            url: api1.user.topic_favorite_list,
             data: {
-                page: args.page,
+                limit: args.page,
             },
             success: function (res) {
                 if (res.code == 0) {
                     if (args.reload) {
-                        page.data.topic.list = res.data.list;
+                        page.data.topic.list = res.data.data;
                     }
                     if (args.loadmore) {
-                        page.data.topic.list = page.data.topic.list.concat(res.data.list);
+                        page.data.topic.list = page.data.topic.list.concat(res.data.data);
                     }
                     page.data.topic.page = args.page;
-                    page.data.topic.is_more = res.data.list.length > 0;
+                    page.data.topic.is_more = res.data.data.length > 0;
                     page.setData({
                         topic: page.data.topic,
                     });

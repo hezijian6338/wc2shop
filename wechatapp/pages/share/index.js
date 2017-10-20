@@ -1,5 +1,5 @@
 // pages/share/index.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 

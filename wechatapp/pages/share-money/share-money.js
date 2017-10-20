@@ -1,5 +1,5 @@
 // pages/share-money/share-money.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -45,7 +45,7 @@ Page({
       mask: true,
     });
     app.request({
-      url: api.share.get_price,
+      url: api1.share.get_price,
       success: function (res) {
         if (res.code == 0) {
           page.setData({
