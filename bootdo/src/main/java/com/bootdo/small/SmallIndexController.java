@@ -7,6 +7,7 @@ import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
 import com.bootdo.shop.controller.TBrandController;
+import com.bootdo.shop.domain.AddressDO;
 import com.bootdo.shop.domain.ArticleDO;
 import com.bootdo.shop.domain.BannerDO;
 import com.bootdo.shop.domain.CouponDO;
@@ -74,7 +75,8 @@ public class SmallIndexController {
 	private TMemberService tMemberService;
 	@Autowired
 	private WxMaService wxService;
-
+	@Autowired
+	private AddressService addressService;
 
 	/**
 	 * banner图列表
@@ -470,6 +472,81 @@ public class SmallIndexController {
 		}
 		return r;
 	}
+	/**
+	 * 用户地址列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/user/address-list")
+	public R addressList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<AddressDO> tArticleList = addressService.list(query);
+			int total = addressService.count(query);
+			PageUtils pageUtils = new PageUtils(tArticleList, total);
+			r.put("data",pageUtils);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+	/**
+	 * 地址详情
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/address-detail")
+	public R addressDetail(HttpServletRequest req)throws Exception{
+		Long id = Long.parseLong(req.getParameter("id"));
+		R r=new R();
+		try {
+			AddressDO goods=addressService.get(id);
+			r.put("data",goods);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	address_save: _api_root + 'user/address-save',
+	/**
+	 * 地址详情
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/address-save")
+	public R addressSave(HttpServletRequest req)throws Exception{
+
+		R r=new R();
+		try {
+			AddressDO addressDO =new AddressDO();
+
+			addressService.save(addressDO);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	address_set_default: _api_root + 'user/address-set-default',
+//	address_delete: _api_root + 'user/address-delete',
+//	save_form_id: _api_root + "user/save-form-id",
+//	favorite_add: _api_root + "user/favorite-add",
+//	favorite_remove: _api_root + "user/favorite-remove",
+//	favorite_list: _api_root + "user/favorite-list",
+//	index: _api_root + "user/index",
+//	wechat_district: _api_root + "user/wechat-district",
+//	add_wechat_address: _api_root + "user/add-wechat-address",
+//	topic_favorite: _api_root + "user/topic-favorite",
+//	topic_favorite_list: _api_root + "user/topic-favorite-list",
 	/**
 	 * 话题列表
 	 * @param params

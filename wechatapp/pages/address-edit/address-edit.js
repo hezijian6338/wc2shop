@@ -1,5 +1,5 @@
 // pages/address-edit/address-edit.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var area_picker = require('../../area-picker/area-picker.js');
 var app = getApp();
 Page({
@@ -27,7 +27,7 @@ Page({
                 mask: true,
             });
             app.request({
-                url: api.user.address_detail,
+                url: api1.user.address_detail,
                 data: {
                     id: options.id,
                 },
@@ -49,7 +49,7 @@ Page({
                 mask: true,
             });
             app.request({
-                url: api.default.district,
+                url: api1.default.district,
                 success: function (res) {
                     wx.hideLoading();
                     if (res.code == 0) {
@@ -119,7 +119,7 @@ Page({
             url: api.user.address_save,
             method: "post",
             data: {
-                address_id: page.data.address_id || "",
+                id: page.data.address_id || "",
                 name: page.data.name,
                 mobile: page.data.mobile,
                 province_id: district.province.id,
@@ -168,7 +168,7 @@ Page({
                     return;
                 wx.showLoading();
                 app.request({
-                    url: api.user.wechat_district,
+                    url: api1.user.wechat_district,
                     data: {
                         national_code: e.nationalCode,
                     },

@@ -1,5 +1,5 @@
 // pages/address/address.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -28,14 +28,19 @@ Page({
      */
     onShow: function () {
         var page = this;
+		 var access_token = wx.getStorageSync("access_token");
         wx.showNavigationBarLoading();
         app.request({
-            url: api.user.address_list,
+            url: api1.user.address_list,
+				data:{
+				  userid:access_token,
+				  limit:15
+				},
             success: function (res) {
                 wx.hideNavigationBarLoading();
                 if (res.code == 0) {
                     page.setData({
-                        address_list: res.data.list,
+                        address_list: res.data.rows,
                     });
                 }
                 page.setData({
@@ -54,9 +59,9 @@ Page({
             mask: true,
         });
         app.request({
-            url: api.user.address_set_default,
+            url: api1.user.address_set_default,
             data: {
-                address_id: address.id,
+                id: address.id,
             },
             success: function (res) {
                 wx.hideLoading();
@@ -93,7 +98,7 @@ Page({
                     app.request({
                         url: api.user.address_delete,
                         data: {
-                            address_id: address_id,
+                            id: address_id,
                         },
                         success: function (res) {
                             if (res.code == 0) {
