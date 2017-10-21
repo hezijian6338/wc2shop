@@ -7,7 +7,7 @@
                 <swiper-item>
                     <navigator url="{{item.url}}">
                         <view class="slide-title">{{item.name}}</view>
-                        <image src="https://jdweixin.tunnel.qydev.com/upload/brand/{{item.img}}" class="slide-image" mode="aspectFill"/>
+                        <image src="https://zscat.tunnel.qydev.com/upload/brand/{{item.img}}" class="slide-image" mode="aspectFill"/>
                     </navigator>
                 </swiper-item>
             </block>
@@ -146,7 +146,7 @@
                           wx:for-item="goods" wx:key="item.id">
                         <navigator class="goods-item"
                                    url="/pages/goods/goods?id={{goods.id}}">
-                            <image src="https://jdweixin.tunnel.qydev.com/upload/project/{{goods.img}}" mode="aspectFill"/>
+                            <image src="https://zscat.tunnel.qydev.com/upload/project/{{goods.img}}" mode="aspectFill"/>
                             <text class="goods-name">{{goods.title}}</text>
                             <text class="goods-price">￥{{goods.prices}}</text>
                         </navigator>

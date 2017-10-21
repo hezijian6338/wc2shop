@@ -42,6 +42,7 @@ public class LogAspect {
 		// 保存日志
 		saveLog(point, time);
 		return result;
+
 	}
 
 	private void saveLog(ProceedingJoinPoint joinPoint, long time) {

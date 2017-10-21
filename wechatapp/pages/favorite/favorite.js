@@ -63,25 +63,33 @@ Page({
         page.setData({
             goods: page.data.goods,
         });
+        var access_token = wx.getStorageSync("access_token");
         app.request({
             url: api1.user.favorite_list,
             data: {
+                  type:1,
+                 userid: access_token,
                 limit: args.page,
             },
             success: function (res) {
+              console.log('goods:' + res);
                 if (res.code == 0) {
                     if (args.reload) {
-                        page.data.goods.list = res.data.rows;
+                        page.data.goods.list = res.data;
                     }
                     if (args.loadmore) {
-                        page.data.goods.list = page.data.goods.list.concat(res.data.rows);
+                        page.data.goods.list = page.data.goods.list.concat(res.data);
                     }
                     page.data.goods.page = args.page;
-                    page.data.goods.is_more = res.data.rows.length > 0;
+                    page.data.goods.is_more = res.data.length > 0;
                     page.setData({
                         goods: page.data.goods,
                     });
                 } else {
+                }
+                console.log('goods:' + page.data.goods.list);
+                for (var i in page.data.goods.list) {
+                  console.log(page.data.goods.list[i]);
                 }
             },
             complete: function () {
@@ -112,21 +120,24 @@ Page({
         page.setData({
             topic: page.data.topic,
         });
+        var access_token = wx.getStorageSync("access_token");
         app.request({
-            url: api1.user.topic_favorite_list,
-            data: {
-                limit: args.page,
-            },
+          url: api1.user.topic_favorite_list,
+          data: {
+            type: 2,
+            userid: access_token,
+            limit: args.page,
+          },
             success: function (res) {
                 if (res.code == 0) {
                     if (args.reload) {
-                        page.data.topic.list = res.data.data;
+                        page.data.topic.list = res.data;
                     }
                     if (args.loadmore) {
                         page.data.topic.list = page.data.topic.list.concat(res.data.data);
                     }
                     page.data.topic.page = args.page;
-                    page.data.topic.is_more = res.data.data.length > 0;
+                    page.data.topic.is_more = res.data.length > 0;
                     page.setData({
                         topic: page.data.topic,
                     });

@@ -5,13 +5,13 @@ var api1 = require('./api1.js');
 App({
   is_on_launch: true,
   onLaunch: function () {
-    // console.log(wx.getSystemInfoSync());
-    // this.getStoreData();
-    //  this.getCatList();
-    var access_token = wx.getStorageSync("access_token");
-    console.log('token:' + access_token);
-    // if (!access_token)
-    //   this.login();
+   // console.log(wx.getSystemInfoSync());
+   // this.getStoreData();
+  //  this.getCatList();
+     var access_token = wx.getStorageSync("access_token");
+     console.log('token:'+access_token);
+     if (!access_token)
+     this.login();
   },
 
   getStoreData: function () {
@@ -19,7 +19,7 @@ App({
     this.request({
       url: api1.default.store,
       data: {
-        id: 1
+        id:1
       },
       success: function (res) {
         if (res.code == 0) {
@@ -39,8 +39,8 @@ App({
   getCatList: function () {
     this.request({
       url: api1.default.cat_list,
-      data: {
-        limit: 15
+      data:{
+        limit:15
       },
       success: function (res) {
         if (res.code == 0) {
@@ -65,10 +65,10 @@ App({
           wx.getUserInfo({
             success: function (res) {
               console.log('login.....');
-              //  console.log(code);
-              //  console.log(res);
+            //  console.log(code);
+            //  console.log(res);
               getApp().request({
-                url: api1.passport.login,
+                url: api.passport.login,
                 method: "post",
                 data: {
                   code: code,
@@ -82,29 +82,28 @@ App({
                   wx.hideLoading();
                   if (res.code == 0) {
                     console.log(res);
-                  //  wx.setStorageSync("access_token", res.data.access_token);
-                     wx.setStorageSync("access_token", res.data.id);
+                    wx.setStorageSync("access_token", res.data.access_token);
+                   // wx.setStorageSync("access_token", res.data.id);
                     wx.setStorageSync("user_info", {
-                      avatar_url: res.data.img,
                       nickname: res.data.username,
                       avatar_url: res.data.img,
-                      // parent: res.data.parent,
+                     // parent: res.data.parent,
                       id: res.data.id
                     });
-
-                    var parent_id = wx.getStorageSync("parent_id");
+                   
+                     var parent_id = wx.getStorageSync("parent_id");
                     var p = getCurrentPages();
-                    // var parent_id = 0;
-
-
+                   // var parent_id = 0;
+                
+                  
                     if (p[0].options.user_id != undefined) {
-
-                      parent_id = p[0].options.user_id;
+      
+                       parent_id = p[0].options.user_id;
                     }
                     else if (p[0].options.scene != undefined) {
-                      parent_id = p[0].options.scene;
+                       parent_id = p[0].options.scene;
                     }
-                    console.log('parentid:' + parent_id, p[0].options.scene, p[0].options.user_id);
+                     console.log('parentid:'+parent_id, p[0].options.scene, p[0].options.user_id);
                     getApp().bindParent({
                       parent_id: parent_id || 0
                     });
@@ -143,7 +142,7 @@ App({
     if (access_token) {
       if (!object.data)
         object.data = {};
-      // object.data.access_token = access_token;
+     // object.data.access_token = access_token;
     }
     wx.request({
       url: object.url,
@@ -208,7 +207,7 @@ App({
     getApp().bindParent(object);
   },
   bindParent: function (object) {
-    if (object.parent_id == "undefined" || object.parent_id == 0)
+    if(object.parent_id=="undefined"||object.parent_id==0)
       return;
     console.log("Try To Bind Parent With User Id:" + object.parent_id);
     var user_info = wx.getStorageSync("user_info");

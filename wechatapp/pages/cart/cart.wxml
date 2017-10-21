@@ -41,7 +41,7 @@
 
             <view class="flex-grow-1 flex-row">
                 <view class="flex-grow-0">
-                    <image class="goods-pic" mode="aspectFill" src="https://jdweixin.tunnel.qydev.com/upload/project/{{item.img}}"/>
+                    <image class="goods-pic" mode="aspectFill" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"/>
                 </view>
                 <view class="flex-grow-1 flex-col">
                     <view class="flex-grow-1">

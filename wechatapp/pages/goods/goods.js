@@ -361,11 +361,14 @@ Page({
 
     favoriteAdd: function () {
         var page = this;
+        var access_token = wx.getStorageSync("access_token");
         app.request({
-            url: api.user.favorite_add,
+            url: api1.user.favorite_add,
             method: "post",
             data: {
-                goods_id: page.data.goods.id,
+                type:1,
+                userid:access_token,
+                goodsid: page.data.goods.id,
             },
             success: function (res) {
                 if (res.code == 0) {

@@ -11,6 +11,7 @@ import com.bootdo.shop.domain.AddressDO;
 import com.bootdo.shop.domain.ArticleDO;
 import com.bootdo.shop.domain.BannerDO;
 import com.bootdo.shop.domain.CouponDO;
+import com.bootdo.shop.domain.FavoriteDO;
 import com.bootdo.shop.domain.TArticleDO;
 import com.bootdo.shop.domain.TBrandDO;
 import com.bootdo.shop.domain.TCartDO;
@@ -77,7 +78,8 @@ public class SmallIndexController {
 	private WxMaService wxService;
 	@Autowired
 	private AddressService addressService;
-
+	@Autowired
+	private FavoriteService favoriteService;
 	/**
 	 * banner图列表
 	 * @param params
@@ -514,9 +516,29 @@ public class SmallIndexController {
 		}
 		return r;
 	}
+	/**
+	 * 用户详情
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/index")
+	public R memberDetail(HttpServletRequest req)throws Exception{
+		Long id = Long.parseLong(req.getParameter("id"));
+		R r=new R();
+		try {
+			TMemberDO goods=tMemberService.get(id);
+			r.put("data",goods);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	address_save: _api_root + 'user/address-save',
 	/**
-	 * 地址详情
+	 * 添加地址
 	 * @param req
 	 * @return
 	 * @throws Exception
@@ -537,11 +559,148 @@ public class SmallIndexController {
 		return r;
 	}
 //	address_set_default: _api_root + 'user/address-set-default',
+	/**
+	 * 修改地址
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/address-update")
+	public R addressUpdate(HttpServletRequest req)throws Exception{
+
+		R r=new R();
+		try {
+			AddressDO addressDO =new AddressDO();
+
+			addressService.update(addressDO);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	address_delete: _api_root + 'user/address-delete',
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/user/address-delete")
+	@ResponseBody
+	public R remove( Long id){
+		if(addressService.remove(id)>0){
+			return R.ok();
+		}
+		return R.error();
+	}
 //	save_form_id: _api_root + "user/save-form-id",
+	/**
+	 * 添加地址
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/save-form-id")
+	public R saveformid(HttpServletRequest req)throws Exception{
+
+		R r=new R();
+		try {
+			AddressDO addressDO =new AddressDO();
+
+			addressService.save(addressDO);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	favorite_add: _api_root + "user/favorite-add",
+	/**
+	 * 添加地址
+	 * @param req
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/favorite-add")
+	public R favoriteadd(@RequestParam Map<String, Object> params,HttpServletRequest req)throws Exception{
+		Long userid=Long.parseLong(req.getParameter("userid"));
+		Long goodsid=Long.parseLong(req.getParameter("goodsid"));
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			FavoriteDO favoriteDO = favoriteService.selectOne(params);
+			if (favoriteDO!=null){
+				//更新状态
+				favoriteDO.setDeletestatus(true);
+				favoriteDO.setAddtime(new Date());
+				favoriteService.update(favoriteDO);
+			}else{
+				favoriteDO.setType(1); //增加
+				favoriteDO.setDeletestatus(false);
+				favoriteDO.setAddtime(new Date());
+				favoriteService.save(favoriteDO);
+			}
+			r.put("data",favoriteDO);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	favorite_remove: _api_root + "user/favorite-remove",
+	/**
+	 * 删除
+	 */
+	@PostMapping( "/user/favorite-remove")
+	@ResponseBody
+	public R favoriteremove( Long id){
+		if(favoriteService.remove(id)>0){
+			return R.ok();
+		}
+		return R.error();
+	}
 //	favorite_list: _api_root + "user/favorite-list",
+	/**
+	 * 话题列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/user/favorite-list")
+	public R goodsfavoriteList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<FavoriteDO> tArticleList = favoriteService.userFavorite(query);
+			r.put("data",tArticleList);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+	/**
+	 * 话题列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/user/topic-favorite-list")
+	public R topicfavoriteList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<FavoriteDO> tArticleList = favoriteService.userTopicFavorite(query);
+			r.put("data",tArticleList);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	index: _api_root + "user/index",
 //	wechat_district: _api_root + "user/wechat-district",
 //	add_wechat_address: _api_root + "user/add-wechat-address",
@@ -623,7 +782,7 @@ public class SmallIndexController {
 		R r=new R();
 		try {
 			Query query = new Query(params);
-			List<CouponDO> tArticleList = couponService.list(query);
+			List<CouponDO> tArticleList = couponService.userCoupon(query);
 			int total = couponService.count(query);
 			PageUtils pageUtils = new PageUtils(tArticleList, total);
 			r.put("data",pageUtils);

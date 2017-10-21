@@ -1,5 +1,5 @@
 // user.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -22,13 +22,13 @@ Page({
         page.setData({
             store: wx.getStorageSync('store'),
         });
+        var access_token = wx.getStorageSync("access_token");
         app.request({
-            url: api.user.index,
+            url: api1.user.index,
+            data:{id:access_token},
             success: function (res) {
                 if (res.code == 0) {
-                    page.setData(res.data);
-                    wx.setStorageSync("share_setting", res.data.share_setting);
-                    wx.setStorageSync("user_info", res.data.user_info);
+                  page.setData({user_info:res.data});
                 }
             }
         });

@@ -1,5 +1,6 @@
 package com.bootdo.shop.dao;
 
+import com.bootdo.common.utils.Query;
 import com.bootdo.shop.domain.CouponDO;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface CouponDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    List<CouponDO> getUserCoupon(Map<String, Object> map);
 }

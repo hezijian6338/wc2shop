@@ -25,9 +25,12 @@ Page({
         wx.showLoading({
             title: "加载中",
         });
+        var access_token = wx.getStorageSync("access_token");
         app.request({
             url: api1.coupon.index,
             data: {
+                limit:15,
+                id:access_token,
                 status: page.data.status,
             },
             success: function (res) {

@@ -1,4 +1,4 @@
-var _api_root = 'https://jdweixin.tunnel.qydev.com/small/';
+var _api_root = 'https://zscat.tunnel.qydev.com/small/';
 var api1 = {
     index: _api_root + 'default/index',
     default: {

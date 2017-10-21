@@ -21,7 +21,7 @@ public class CouponDO implements Serializable {
 	//
 	private Date addtime;
 	//
-	private Boolean status;
+	private Integer status;
 	//
 	private BigDecimal amount;
 	//
@@ -66,13 +66,13 @@ public class CouponDO implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setStatus(Boolean status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	/**
 	 * 获取：
 	 */
-	public Boolean getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 	/**

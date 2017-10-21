@@ -1,5 +1,6 @@
 package com.bootdo.shop.service.impl;
 
+import com.bootdo.common.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +52,10 @@ public class CouponServiceImpl implements CouponService {
 	public int batchRemove(Long[] ids){
 		return couponDao.batchRemove(ids);
 	}
-	
+
+	@Override
+	public List<CouponDO> userCoupon(Query query) {
+		return couponDao.getUserCoupon(query);
+	}
+
 }

@@ -2,10 +2,10 @@
   <image class="user-info-bg" mode="aspectFill" src="/images/img-user-bg.png" />
   <view class="flex-grow-1 flex-y-center flex-row">
     <view class="flex-grow-0">
-      <image class="avatar" src="{{user_info.avatar_url}}" />
+      <image class="avatar" src="{{user_info.img}}" />
     </view>
     <view class="flex-grow-1">
-      <text class="user-name">{{user_info.nickname}}</text>
+      <text class="user-name">{{user_info.username}}</text>
     </view>
   </view>
   <view class="flex-grow-0 flex-y-center">
@@ -74,8 +74,8 @@
 <view class="option-list">
 
 
-  <block wx:if="{{share_setting.level > 0}}">
-    <view wx:if="{{user_info.is_distributor != 1}}">
+  <block>
+    <view wx:if="{{user_info.status != 1}}">
       <view class="option-item" bindtap="apply">
         <view class="flex-row option-content">
           <view class="flex-grow-1 flex-row">
@@ -92,7 +92,7 @@
         </view>
       </view>
     </view>
-    <view wx:elif="{{user_info.is_distributor == 1}}">
+    <view wx:elif="{{user_info.status == 1}}">
       <navigator class="option-item" url="/pages/share/index">
         <view class="flex-row option-content">
           <view class="flex-grow-1 flex-row">

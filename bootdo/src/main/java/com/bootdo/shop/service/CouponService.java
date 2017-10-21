@@ -1,5 +1,6 @@
 package com.bootdo.shop.service;
 
+import com.bootdo.common.utils.Query;
 import com.bootdo.shop.domain.CouponDO;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface CouponService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	List<CouponDO> userCoupon(Query query);
 }
