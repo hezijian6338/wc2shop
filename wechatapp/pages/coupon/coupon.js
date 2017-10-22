@@ -21,6 +21,7 @@ Page({
     },
 
     loadData: function (options) {
+		
         var page = this;
         wx.showLoading({
             title: "加载中",
@@ -34,6 +35,7 @@ Page({
                 status: page.data.status,
             },
             success: function (res) {
+					console.log('coupon res:'+res);
                 if (res.code == 0) {
                     page.setData({
                         list: res.data.rows,

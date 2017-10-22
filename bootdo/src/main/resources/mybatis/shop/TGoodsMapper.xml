@@ -96,7 +96,7 @@
 			`sellhit`, 
 			`iscom`, 
 			`storeid`, 
-			`storename`, 
+			`storename`,
 			`brandid`
 		)
 		values
@@ -120,7 +120,7 @@
 			#{sellhit}, 
 			#{iscom}, 
 			#{storeid}, 
-			#{storename}, 
+			#{storename},
 			#{brandid}
 		)
 	</insert>

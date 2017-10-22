@@ -1,7 +1,9 @@
 package com.bootdo.shop.service;
 
 import com.bootdo.shop.domain.TCartDO;
+import com.bootdo.shop.domain.TOrderDO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +33,8 @@ public interface TCartService {
 	TCartDO selectOne(Map<String, Object> params);
 
     Object selectOwnCart(Long id);
+
+	Map<String, Object> ordersubmitpreview(Map<String, Object> params);
+
+	TOrderDO orderSubmit(HttpServletRequest req);
 }

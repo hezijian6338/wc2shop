@@ -23,6 +23,35 @@ public class TGoodSorderDO implements Serializable {
 	private Long orderid;
 	//
 	private String img;
+	private String goodsname;
+	//价格
+	private String price;
+	//个数
+	private Integer count;
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public String getGoodsname() {
+		return goodsname;
+	}
+
+	public void setGoodsname(String goodsname) {
+		this.goodsname = goodsname;
+	}
 
 	/**
 	 * 设置：

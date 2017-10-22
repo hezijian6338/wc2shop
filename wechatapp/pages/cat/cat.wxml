@@ -16,8 +16,8 @@
             <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
                 <image style="width: 100%;height: 100%" src="{{item.big_pic_url}}"></image>
             </navigator>
-            <block wx:if="{{item.list&&item.list.length>0}}">
-                <navigator wx:for="{{item.list}}" class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
+            <block wx:if="{{item.goods_list&&item.goods_list.length>0}}">
+                <navigator wx:for="{{item.goods_list}}" class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
                     <image style="width: 100%;height: 100%" src="{{item.big_pic_url}}"></image>
                 </navigator>
             </block>
@@ -36,8 +36,8 @@
                     </navigator>
                 </view>
 
-                <block wx:if="{{item.list && item.list.length>0}}">
-                    <view wx:for="{{item.list}}" class="flex-grow-0">
+                <block wx:if="{{item.goods_list && item.goods_list.length>0}}">
+                    <view wx:for="{{item.goods_list}}" class="flex-grow-0">
                         <navigator class="cat-item" url="/pages/list/list?cat_id={{item.id}}">
                             <image class="cat-icon" src="{{item.pic_url}}"></image>
                             <view class="cat-name">{{item.name}}</view>
@@ -70,17 +70,17 @@
                 <!-- 大图模式（开启侧栏） -->
                 <block>
                     <block wx:if="{{current_cat}}">
-                        <block wx:for="{{current_cat.list}}">
+                        <block wx:for="{{current_cat.goods_list}}">
                             <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
-                                <image style="width: 100%;height: 100%" src="{{item.big_pic_url}}"></image>
+                                <image style="width: 100%;height: 100%" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
                             </navigator>
                         </block>
                     </block>
                     <block wx:else>
                         <block wx:for="{{cat_list}}">
-                            <block wx:for="{{item.list}}">
+                            <block wx:for="{{item.goods_list}}">
                                 <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
-                                    <image style="width: 100%;height: 100%" src="{{item.big_pic_url}}"></image>
+                                    <image style="width: 100%;height: 100%" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
                                 </navigator>
                             </block>
                         </block>
@@ -88,21 +88,21 @@
                 </block>
 
                 <!-- 小图标模式（开启侧栏） -->
-                <view class="cat-small-style cat-num-3 flex-row" wx:if="{{store.cat_style==4}}">
+                <view class="cat-small-style cat-num-3 flex-row">
                     <block wx:if="{{current_cat}}">
-                        <view wx:for="{{current_cat.list}}" class="flex-grow-0">
+                        <view wx:for="{{current_cat.goods_list}}" class="flex-grow-0">
                             <navigator class="cat-item " url="/pages/list/list?cat_id={{item.id}}">
-                                <image class="cat-icon" src="{{item.pic_url}}"></image>
+                                <image class="cat-icon" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
                                 <view class="cat-name">{{item.name}}</view>
                             </navigator>
                         </view>
                     </block>
                     <block wx:else>
                         <block wx:for="{{cat_list}}">
-                            <block wx:for="{{item.list}}">
+                            <block wx:for="{{item.goods_list}}">
                                 <view class="flex-grow-0">
                                     <navigator class="cat-item " url="/pages/list/list?cat_id={{item.id}}">
-                                        <image class="cat-icon" src="{{item.pic_url}}"></image>
+                                        <image class="cat-icon" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
                                         <view class="cat-name">{{item.name}}</view>
                                     </navigator>
                                 </view>

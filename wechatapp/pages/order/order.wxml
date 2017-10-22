@@ -4,7 +4,7 @@
 </navigator>
 <view class="flex-row tab-bar">
   <view class="flex-grow-1">
-    <navigator class="{{status==0?'active':''}}" url="/pages/order/order?status=0" open-type="redirect">
+    <navigator class="{{status==0?'active':''}}" url="/pages/order/order?status=9" open-type="redirect">
       <text>待付款</text>
     </navigator>
   </view>
@@ -34,18 +34,18 @@
   <view class="order-item" wx:for="{{order_list}}" wx:for-item="order">
     <navigator url="{{status==4?'/pages/order-refund-detail/order-refund-detail?id='+order.order_refund_id:'/pages/order-detail/order-detail?id='+order.order_id}}">
       <view class="flex-row order-info">
-        <view class="flex-grow-1">订单号:{{order.order_no}}</view>
-        <view class="flex-grow-0">{{order.addtime}}</view>
+        <view class="flex-grow-1">订单号:{{order.ordersn}}</view>
+        <view class="flex-grow-0">{{order.createdate}}</view>
       </view>
 
       <view class="goods-list">
-        <view class="goods-item flex-row" wx:for="{{order.goods_list}}" wx:for-item="goods">
+        <view class="goods-item flex-row" wx:for="{{order.goodsList}}" wx:for-item="goods">
           <view class="flex-grow-0" style="overflow: visible">
-            <image class="goods-pic" mode="aspectFill" src="{{goods.goods_pic}}" />
+            <image class="goods-pic" mode="aspectFill" src="https://zscat.tunnel.qydev.com/upload/project/{{goods.img}}" />
           </view>
           <view class="flex-grow-1 flex-col">
             <view class="flex-grow-1">
-              <view class="goods-name">{{goods.goods_name}}</view>
+              <view class="goods-name">{{goods.goodsname}}</view>
               <view class="attr-list">
                 <view class="attr-item" wx:for="{{goods.attr_list}}" wx:for-item="attr">
                   {{attr.attr_group_name}}:{{attr.attr_name}}
@@ -53,7 +53,7 @@
               </view>
             </view>
             <view class="flex-grow-0 flex-row">
-              <view class="flex-grow-1 num">×{{goods.num}}</view>
+              <view class="flex-grow-1 num">×{{goods.count}}</view>
               <view class="flex-grow-0 price">￥:{{goods.price}}</view>
             </view>
           </view>
@@ -71,7 +71,7 @@
             换货
           </block>
         </block>
-        <block wx:else>合计：￥{{order.pay_price}}</block>
+        <block wx:else>合计：￥{{order.totalprice}}</block>
       </view>
       <view class="flex-grow-0 flex-y-center flex-row">
         <block wx:if="{{status==4}}">

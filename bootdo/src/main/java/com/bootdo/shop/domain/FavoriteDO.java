@@ -20,7 +20,7 @@ public class FavoriteDO implements Serializable {
 	//
 	private Date addtime;
 	//
-	private Boolean deletestatus;
+	private Integer deletestatus;
 	//
 	private Integer type;
 	//
@@ -57,13 +57,13 @@ public class FavoriteDO implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setDeletestatus(Boolean deletestatus) {
+	public void setDeletestatus(Integer deletestatus) {
 		this.deletestatus = deletestatus;
 	}
 	/**
 	 * 获取：
 	 */
-	public Boolean getDeletestatus() {
+	public Integer getDeletestatus() {
 		return deletestatus;
 	}
 	/**

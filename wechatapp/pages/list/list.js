@@ -10,10 +10,10 @@ Page({
      */
     data: {
         cat_id: "",
-        page: 1,
+        page: 15,
         cat_list: [],
         goods_list: [],
-        sort: 0,
+        sort: 4,
         sort_type: -1,
     },
 
@@ -136,22 +136,24 @@ Page({
         var cat_id = page.data.cat_id || "";
         var p = page.data.page || 1;
         //wx.showNavigationBarLoading();
+		console.log('page.data.goods_list:'+page.data.sort+','+page.data.sort_type);
         app.request({
             url: api1.default.goods_list,
             data: {
               typeid: cat_id,
-                limit: p,
-                sort: page.data.sort,
-                order: page.data.sort_type,
+                limit: 15,
+                sort1: page.data.sort,
+                order1: page.data.sort_type,
             },
             success: function (res) {
-            
+      
                 if (res.code == 0) {
                     if (res.data.rows.length == 0)
                         is_no_more = true;
                     page.setData({page: (p + 1)});
-                    page.setData({goods_list: res.data.row});
+                    page.setData({goods_list: res.data.rows});
                 }
+				
                 page.setData({
                     show_no_data_tip: (page.data.goods_list.length == 0),
                 });
@@ -177,9 +179,10 @@ Page({
             url: api1.default.goods_list,
             data: {
               typeid: cat_id,
-              limit: p,
-              sort: page.data.sort,
-              order: page.data.sort_type,
+				  offset:1,
+              limit: 100,
+              sort1: page.data.sort,
+              order1: page.data.sort_type,
             },
             success: function (res) {
                 if (res.data.rows.length == 0)
@@ -259,12 +262,12 @@ Page({
             if (page.data.sort_type == -1) {
                 sort_type = default_sort_type;
             } else {
-                sort_type = (sort_type == 0 ? 1 : 0);
+                sort_type = (sort_type == 2 ? 1 : 2);
             }
         } else {
             sort_type = default_sort_type;
         }
-
+console.log('sort:'+sort+','+sort_type);
         page.setData({
             sort: sort,
             sort_type: sort_type,

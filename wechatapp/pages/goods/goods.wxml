@@ -5,10 +5,10 @@
             <view class="flex-row" style="border-bottom: 1rpx solid #e3e3e3;padding: 24rpx 28rpx">
                 <view class="flex-grow-0">
                     <view class="goods-pic-box">
-                        <image mode="aspectFill" src="https://jdweixin.tunnel.qydev.com/upload/project/{{goods.img}}"></image>
+                        <image mode="aspectFill" src="https://zscat.tunnel.qydev.com/upload/project/{{goods.img}}"></image>
                     </view>
                 </view>
-                <view class="flex-grow-1" style="padding: 0 24rpx">
+                <view class="flex-grow-1" style="padding: 0 24rpx">111qq11111111111
                     <view style="color:#ff4544;margin-bottom: 20rpx">￥{{goods.prices}}</view>
                     <view style="">库存9999件</view>
                 </view>

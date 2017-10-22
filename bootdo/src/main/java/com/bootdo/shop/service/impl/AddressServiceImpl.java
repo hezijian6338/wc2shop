@@ -1,5 +1,6 @@
 package com.bootdo.shop.service.impl;
 
+import com.bootdo.shop.domain.TCartDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +52,14 @@ public class AddressServiceImpl implements AddressService {
 	public int batchRemove(Long[] ids){
 		return addressDao.batchRemove(ids);
 	}
-	
+
+	@Override
+	public AddressDO selectOne(Map<String, Object> params) {
+		List<AddressDO> list = addressDao.list(params);
+		if (list!=null && list.size()>0){
+			return  list.get(0);
+		}
+		return null;
+	}
+
 }

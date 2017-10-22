@@ -35,6 +35,7 @@ Page({
     },
 
     loadOrderList: function (status) {
+		 var access_token = wx.getStorageSync("access_token");
         if (status == undefined)
             status = -1;
         var page = this;
@@ -48,6 +49,7 @@ Page({
         app.request({
             url: api1.order.list,
             data: {
+				userid:access_token,
                 status: page.data.status,
             },
             success: function (res) {

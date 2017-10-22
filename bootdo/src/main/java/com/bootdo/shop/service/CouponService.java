@@ -29,5 +29,5 @@ public interface CouponService {
 	
 	int batchRemove(Long[] ids);
 
-	List<CouponDO> userCoupon(Query query);
+	List<CouponDO> userCoupon(Map<String, Object> map);
 }

@@ -54,8 +54,8 @@ public class CouponServiceImpl implements CouponService {
 	}
 
 	@Override
-	public List<CouponDO> userCoupon(Query query) {
-		return couponDao.getUserCoupon(query);
+	public List<CouponDO> userCoupon(Map<String, Object> map) {
+		return couponDao.getUserCoupon(map);
 	}
 
 }

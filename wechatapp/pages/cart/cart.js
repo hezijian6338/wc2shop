@@ -110,7 +110,7 @@ Page({
         var cart_list = page.data.cart_list;
         for (var i in cart_list) {
             if (cart_list[i].checked)
-                total_price += cart_list[i].price;
+                total_price += parseInt(cart_list[i].price);
         }
         page.setData({
             total_price: total_price,
@@ -120,10 +120,11 @@ Page({
     cartSubmit: function () {
         var page = this;
         var cart_list = page.data.cart_list;
+        console.log(cart_list);
         var cart_id_list = [];
         for (var i in cart_list) {
             if (cart_list[i].checked)
-                cart_id_list.push(cart_list[i].cart_id);
+                cart_id_list.push(cart_list[i].id);
         }
         if (cart_id_list.length == 0) {
             return true;
@@ -183,7 +184,7 @@ Page({
                     mask: true,
                 });
                 app.request({
-                    url: api.cart.delete,
+                    url: api1.cart.delete,
                     data: {
                         cart_id_list: JSON.stringify(cart_id_list),
                     },

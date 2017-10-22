@@ -59,7 +59,16 @@ public class TGoodsDO implements Serializable {
 	private String storename;
 	//
 	private Long brandid;
-	private String imgs[];
+	private String imgs[];// 多图  详情中截取
+	private  Integer 	is_favorite;//1已收藏
+
+	public Integer getIs_favorite() {
+		return is_favorite;
+	}
+
+	public void setIs_favorite(Integer is_favorite) {
+		this.is_favorite = is_favorite;
+	}
 
 	public String[] getImgs() {
 		return imgs;

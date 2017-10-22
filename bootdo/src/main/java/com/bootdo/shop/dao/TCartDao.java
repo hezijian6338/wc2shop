@@ -29,4 +29,6 @@ public interface TCartDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	List<TCartDO> batchGet(String[] ids);
 }

@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.shop.dao.TGoodSorderDao">
 
 	<select id="get" resultType="com.bootdo.shop.domain.TGoodSorderDO">
-		select `id`,`goodsid`,`orderid`,`img` from t_good_sorder where id = #{value}
+		select `id`,`goodsid`,`orderid`,`img` ,`price`,`count`,goodsname from t_good_sorder where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.shop.domain.TGoodSorderDO">
-		select `id`,`goodsid`,`orderid`,`img` from t_good_sorder
+		select `id`,`goodsid`,`orderid`,`price`,`count`,`img`,goodsname  from t_good_sorder
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="goodsid != null and goodsid != ''"> and goodsid = #{goodsid} </if>
@@ -42,13 +42,19 @@
 		insert into t_good_sorder
 		(
 			`goodsid`, 
-			`orderid`, 
+			`orderid`,
+			goodsname,
+			`price`,
+			`count`,
 			`img`
 		)
 		values
 		(
 			#{goodsid}, 
-			#{orderid}, 
+			#{orderid},
+			#{goodsname},
+			#{price},
+			#{count},
 			#{img}
 		)
 	</insert>

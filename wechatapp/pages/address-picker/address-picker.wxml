@@ -10,7 +10,7 @@
                     <view class="flex-grow-1">收货人：{{item.name}}</view>
                     <view class="flex-grow-0">{{item.mobile}}</view>
                 </view>
-                <view class="address-detail">收货地址：{{item.address}}</view>
+                <view class="address-detail">收货地址：{{item.detail}}</view>
             </view>
         </bloc>
     </view>

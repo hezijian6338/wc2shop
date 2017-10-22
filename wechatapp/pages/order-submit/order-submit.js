@@ -1,5 +1,5 @@
 // order-submit.js
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -61,9 +61,13 @@ Page({
     },
 
     orderSubmit: function () {
+		var access_token = wx.getStorageSync("access_token");
+		
         var page = this;
         var offline = page.data.offline;
         var data = {};
+		data.userid=access_token;
+		data.express_price=page.data.express_price;
         if (offline == 0) {
             if (!page.data.address || !page.data.address.id) {
                 wx.showToast({
@@ -72,7 +76,7 @@ Page({
                 });
                 return;
             }
-            data.address_id = page.data.address.id;
+            data.addressid = page.data.address.id;
         } else {
             data.address_name = page.data.name;
             data.address_mobile = page.data.mobile;
@@ -81,13 +85,13 @@ Page({
         }
         data.offline = offline;
         if (page.data.cart_id_list) {
-            data.cart_id_list = JSON.stringify(page.data.cart_id_list);
+            data.cart_id_list = page.data.cart_id_list;
         }
-        if (page.data.goods_info) {
-            data.goods_info = JSON.stringify(page.data.goods_info);
+        if (page.data.cartid) {
+            data.cartid = page.data.cartid;
         }
         if (page.data.picker_coupon) {
-            data.user_coupon_id = page.data.picker_coupon.user_coupon_id;
+            data.couponid = page.data.picker_coupon.id;
         }
         if (page.data.content) {
             data.content = page.data.content
@@ -96,10 +100,12 @@ Page({
             title: "正在提交",
             mask: true,
         });
-
+			
+			console.log('orderData:'+JSON.stringify(data));
+			
         //提交订单
         app.request({
-            url: api.order.submit,
+            url: api1.order.submit,
             method: "post",
             data: data,
             success: function (res) {
@@ -112,13 +118,13 @@ Page({
                             options: {},
                         });
                     }, 1);
-                    var order_id = res.data.order_id;
+                    var order_id = res.data.id;
 
                     //获取支付数据
                     app.request({
-                        url: api.order.pay_data,
+                        url: api1.order.pay_data,
                         data: {
-                            order_id: order_id,
+                            orderid: order_id,
                             pay_type: 'WECHAT_PAY',
                         },
                         success: function (res) {
@@ -147,7 +153,7 @@ Page({
                                                 success: function (res) {
                                                     if (res.confirm) {
                                                         wx.redirectTo({
-                                                            url: "/pages/order/order?status=0",
+                                                            url: "/pages/order/order?status=9",
                                                         });
                                                     }
                                                 }
@@ -158,7 +164,7 @@ Page({
                                             return;
                                         }
                                         wx.redirectTo({
-                                            url: "/pages/order/order?status=-1",
+                                            url: "/pages/order/order?status=1",
                                         });
                                     },
                                 });
@@ -211,6 +217,7 @@ Page({
     },
 
     getOrderData: function (options) {
+		var access_token = wx.getStorageSync("access_token");
         var page = this;
         var address_id = "";
         if (page.data.address && page.data.address.id)
@@ -222,21 +229,22 @@ Page({
                 mask: true,
             });
             app.request({
-                url: api.order.submit_preview,
+                url: api1.order.submit_preview,
                 data: {
+					userid:access_token,
                     cart_id_list: options.cart_id_list,
-                    address_id: address_id,
+                    addressid: address_id,
                 },
                 success: function (res) {
                     wx.hideLoading();
                     if (res.code == 0) {
                         page.setData({
                             total_price: parseFloat(res.data.total_price),
-                            goods_list: res.data.list,
+                            goods_list: res.data.goodsList,
                             cart_id_list: res.data.cart_id_list,
                             address: res.data.address,
                             express_price: parseFloat(res.data.express_price),
-                            coupon_list: res.data.coupon_list,
+                            coupon_list: res.data.couponList,
                             shop_list: res.data.shop_list,
                             shop: res.data.shop_list[0] || {},
                             name: res.data.address ? res.data.address.name : '',
@@ -278,21 +286,22 @@ Page({
                 mask: true,
             });
             app.request({
-                url: api.order.submit_preview,
+                url: api1.order.submit_preview,
                 data: {
+					userid:access_token,
                     goods_info: options.goods_info,
-                    address_id: address_id,
+                    addressid: address_id,
                 },
                 success: function (res) {
                     wx.hideLoading();
                     if (res.code == 0) {
                         page.setData({
                             total_price: res.data.total_price,
-                            goods_list: res.data.list,
-                            goods_info: res.data.goods_info,
+                            goods_list: res.data.goodsList,
+                            cartid: res.data.cartid,
                             address: res.data.address,
                             express_price: parseFloat(res.data.express_price),
-                            coupon_list: res.data.coupon_list,
+                            coupon_list: res.data.couponList,
                             shop_list: res.data.shop_list,
                             shop: res.data.shop_list[0] || {},
                             name: res.data.address ? res.data.address.name : '',
@@ -360,8 +369,10 @@ Page({
     },
 
     pickCoupon: function (e) {
+		
         var page = this;
         var index = e.currentTarget.dataset.index;
+
         if (index == '-1' || index == -1) {
             page.setData({
                 picker_coupon: false,
@@ -374,6 +385,7 @@ Page({
                 new_total_price: parseFloat((page.data.total_price - page.data.coupon_list[index].sub_price).toFixed(2)),
             });
         }
+		
     },
 
     numSub: function (num1, num2, length) {

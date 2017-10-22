@@ -3,7 +3,7 @@ package com.bootdo.shop.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
+import java.util.List;
 
 
 /**
@@ -24,11 +24,12 @@ public class TOrderDO implements Serializable {
 	private Integer totalcount;
 	//订单号
 	private String ordersn;
-	//状态
+	//状态 9 待付款  1待发货 2待收货 3 已完成  4 售后
 	private Integer status;
 	//用户
 	private Long userid;
 	//
+	private Long couponid;
 	private Date createdate;
 	//
 	private Long paymentid;
@@ -38,6 +39,23 @@ public class TOrderDO implements Serializable {
 	private String username;
 	//
 	private String usercontent;
+	private List<TGoodSorderDO> goodsList;
+
+	public List<TGoodSorderDO> getGoodsList() {
+		return goodsList;
+	}
+
+	public void setGoodsList(List<TGoodSorderDO> goodsList) {
+		this.goodsList = goodsList;
+	}
+
+	public Long getCouponid() {
+		return couponid;
+	}
+
+	public void setCouponid(Long couponid) {
+		this.couponid = couponid;
+	}
 
 	/**
 	 * 设置：

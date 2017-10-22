@@ -7,20 +7,7 @@ import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
 import com.bootdo.shop.controller.TBrandController;
-import com.bootdo.shop.domain.AddressDO;
-import com.bootdo.shop.domain.ArticleDO;
-import com.bootdo.shop.domain.BannerDO;
-import com.bootdo.shop.domain.CouponDO;
-import com.bootdo.shop.domain.FavoriteDO;
-import com.bootdo.shop.domain.TArticleDO;
-import com.bootdo.shop.domain.TBrandDO;
-import com.bootdo.shop.domain.TCartDO;
-import com.bootdo.shop.domain.TGoodsDO;
-import com.bootdo.shop.domain.TGoodsTypeDO;
-import com.bootdo.shop.domain.TMemberDO;
-import com.bootdo.shop.domain.TReplyDO;
-import com.bootdo.shop.domain.TStoreDO;
-import com.bootdo.shop.domain.TopicDO;
+import com.bootdo.shop.domain.*;
 import com.bootdo.shop.service.*;
 import com.bootdo.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,6 +67,10 @@ public class SmallIndexController {
 	private AddressService addressService;
 	@Autowired
 	private FavoriteService favoriteService;
+	@Autowired
+	private TOrderService orderService;
+	@Autowired
+	private TGoodSorderService tGoodSorderService;
 	/**
 	 * banner图列表
 	 * @param params
@@ -296,9 +287,9 @@ public class SmallIndexController {
 			TArticleDO c1 = new TArticleDO("全部商品","/pages/list/list?cat_id=","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/86/863a7db352a936743faf8edd5162bb5c.png");
 			TArticleDO c2 = new TArticleDO("商品分类","/pages/cat/cat","switchTab", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/35/3570994c06e61b1f0cf719bdb52a0053.png");
 			TArticleDO c3 = new TArticleDO("购物车","/pages/cart/cart","switchTab", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/c2/c2b01cf78f79cbfba192d5896eeaecbe.png");
-			TArticleDO c4 = new TArticleDO("我的订单","/pages/order/order?status=-1","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/7c/7c80acbbd479b099566cc6c3d34fbcb8.png");
+			TArticleDO c4 = new TArticleDO("我的订单","/pages/order/order?status=9","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/7c/7c80acbbd479b099566cc6c3d34fbcb8.png");
 			TArticleDO c5 = new TArticleDO("用户中心","/pages/user/user","switchTab", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/46/46eabbff1e7dc5e416567fc45d4d5df3.png");
-			TArticleDO c6 = new TArticleDO("优惠劵","/pages/coupon/coupon","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/13/13312a6d56c202330f8c282d8cf84ada.png");
+			TArticleDO c6 = new TArticleDO("优惠劵","/pages/coupon/coupon?status=3","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/13/13312a6d56c202330f8c282d8cf84ada.png");
 			TArticleDO c7 = new TArticleDO("我的收藏","/pages/favorite/favorite","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/ca/cab6d8d4785e43bd46dcbb52ddf66f61.png");
 			TArticleDO c8 = new TArticleDO("售后订单","/pages/order/order?status=4","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/cf/cfb32a65d845b4e9a9778020ed2ccac6.png");
 			nav_icon_list.add(c1);nav_icon_list.add(c2);nav_icon_list.add(c3);
@@ -337,8 +328,27 @@ public class SmallIndexController {
 		//params.put("limit", 10);
 		//params.put("sort","clickHit");
 	//	params.put("order","desc");
+		if("1".equals(params.get("sort1"))){
+			params.put("sort","create_date");
+		}else if("2".equals(params.get("sort1"))){
+			params.put("sort","prices");
+		}else if("3".equals(params.get("sort1"))){
+			params.put("sort","sellhit");
+		}else if("4".equals(params.get("sort1"))){
+			params.put("sort","clickHit");
+		}
+
+		if("1".equals(params.get("order1"))){
+			params.put("order","asc");
+		}else if("2".equals(params.get("order1"))){
+			params.put("order","desc");
+		}else if("-1".equals(params.get("order1"))){
+			params.put("order","asc");
+		}
 		R r=new R();
 		try {
+			params.remove("sort1");
+			params.remove("order1");
 			Query query = new Query(params);
 			List<TGoodsDO> tArticleList = tGoodsService.list(query);
 			int total = tGoodsService.count(query);
@@ -360,20 +370,29 @@ public class SmallIndexController {
 	@RequestMapping("/default/goods")
 	public R defaultgoodsDetail(HttpServletRequest req)throws Exception{
 		Long id = Long.parseLong(req.getParameter("id"));
+		Long userid = Long.parseLong(req.getParameter("userid"));
 		R r=new R();
 		try {
 			TGoodsDO goods=tGoodsService.get(id);
 			String imgs[] =new String[4];
 			if(goods.getImgmore()!=null && goods.getImgmore().indexOf(",")>-1){
 				imgs = goods.getImgmore().split(",");
-				imgs[0] = "https://jdweixin.tunnel.qydev.com/upload/project/"+goods.getImg();
+				imgs[0] = "https://zscat.tunnel.qydev.com/upload/project/"+goods.getImg();
 			}else {
-				imgs[0] = "https://jdweixin.tunnel.qydev.com/upload/project/"+goods.getImg();
+				imgs[0] = "https://zscat.tunnel.qydev.com/upload/project/"+goods.getImg();
 			}
 			goods.setImgs(imgs);
 			goods.setClickhit(goods.getClickhit()+1);
 			tGoodsService.update(goods);
-
+			Map<String, Object> params = new HashMap<>();
+			params.put("userid",userid);
+			params.put("goodsid",id);
+			params.put("deletestatus",2);
+			params.put("type",1);
+            FavoriteDO favoriteDO = favoriteService.selectOne(params);
+            if(favoriteDO!=null){
+            	goods.setIs_favorite(1);
+			}
 			r.put("data",goods);
 		}catch (Exception e){
 			e.printStackTrace();
@@ -424,6 +443,146 @@ public class SmallIndexController {
 		}
 		return r;
 	}
+
+	/**
+	 * 添加购物车
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/cart/add-cart")
+	public R addCart(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			String goodsid=params.get("goodsid").toString();
+			String userid=params.get("userid").toString();
+			String count=params.get("count").toString();
+			TGoodsDO goods = tGoodsService.get(Long.parseLong(goodsid));
+			params.remove("count");
+			TCartDO cart = tCartService.selectOne(params);
+			if(cart!=null){
+				cart.setCount(cart.getCount()+Integer.parseInt(count));
+				tCartService.update(cart);
+			}else{
+				cart = new TCartDO();
+				cart.setCount(Integer.parseInt(count));
+				cart.setGoodsid(Long.parseLong(goodsid));
+				cart.setUserid(Long.parseLong(userid));
+				cart.setPrice(goods.getPrices());
+				cart.setStoreid(goods.getStoreid());
+				cart.setImg(goods.getImg());
+				cart.setGoodsname(goods.getTitle());
+				tCartService.save(cart);
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	submit_preview: _api_root + 'order/submit-preview',
+	/**
+	 * 预览订单
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/order/submit-preview")
+	public R ordersubmitpreview(@RequestParam Map<String, Object> params){
+		R r=new R();
+		try {
+			Map<String, Object> result = tCartService.ordersubmitpreview(params);
+			r.put("data",result);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+
+//	submit: _api_root + 'order/submit',
+	/**
+	 * 提交订单
+	 * @param
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/order/submit")
+	public R orderSubmit(HttpServletRequest req){
+		R r=new R();
+		try {
+			TOrderDO result = tCartService.orderSubmit(req);
+			r.put("data",result);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	pay_data: _api_root + 'order/pay-data',
+	/**
+	 * 提交订单
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/order/pay-data")
+	public R payData(@RequestParam Map<String, Object> params){
+		Long id = Long.parseLong(params.get("orderid").toString());
+		R r=new R();
+		try {
+			TOrderDO result = orderService.get(id);
+			r.put("data",result);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	list: _api_root + 'order/list',
+	/**
+	 * 分类列表
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/order/list")
+	public R orderList(@RequestParam Map<String, Object> params){
+		params.put("offset", 0);
+		R r=new R();
+		try {
+			Query query = new Query(params);
+			List<TOrderDO> tGoodsTypeDOS = orderService.list(query);
+			int total = orderService.count(query);
+			for (TOrderDO orderDO : tGoodsTypeDOS){
+				params.clear();
+				params.put("orderid",orderDO.getId());
+				List<TGoodSorderDO> gs = tGoodSorderService.list(params);
+				orderDO.setGoodsList(gs);
+			}
+
+			PageUtils pageUtils = new PageUtils(tGoodsTypeDOS, total);
+			r.put("data",pageUtils);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
+//	revoke: _api_root + 'order/revoke',
+//	confirm: _api_root + 'order/confirm',
+//	count_data: _api_root + 'order/count-data',
+//	detail: _api_root + 'order/detail',
+//	refund_preview: _api_root + 'order/refund-preview',
+//	refund: _api_root + 'order/refund',
+//	refund_detail: _api_root + 'order/refund-detail',
+//	comment_preview: _api_root + 'order/comment-preview',
+//	comment: _api_root + 'order/comment',
+//	express_detail: _api_root + 'order/express-detail',
+//	clerk: _api_root + "order/clerk",
+//	clerk_detail: _api_root + 'order/clerk-detail',
+//	get_qrcode: _api_root + 'order/get-qrcode',
 	/**
 	 * 分类列表
 	 * @param params
@@ -631,13 +790,25 @@ public class SmallIndexController {
 		try {
 			FavoriteDO favoriteDO = favoriteService.selectOne(params);
 			if (favoriteDO!=null){
+				FavoriteDO favoriteDO1 =new FavoriteDO();
+				favoriteDO1.setId(favoriteDO.getId());
 				//更新状态
-				favoriteDO.setDeletestatus(true);
-				favoriteDO.setAddtime(new Date());
-				favoriteService.update(favoriteDO);
+				if(favoriteDO.getDeletestatus()==2){
+					favoriteDO1.setDeletestatus(1);
+				}else{
+					favoriteDO1.setDeletestatus(2);
+				}
+
+				favoriteDO1.setAddtime(new Date());
+				favoriteService.update(favoriteDO1);
 			}else{
+				TGoodsDO goodsDO = tGoodsService.get(goodsid);
+				favoriteDO = new FavoriteDO();
 				favoriteDO.setType(1); //增加
-				favoriteDO.setDeletestatus(false);
+				favoriteDO.setDeletestatus(2);
+				favoriteDO.setGoodsid(goodsid);
+				favoriteDO.setUserid(userid);
+				favoriteDO.setStoreid(goodsDO.getStoreid());
 				favoriteDO.setAddtime(new Date());
 				favoriteService.save(favoriteDO);
 			}
@@ -704,6 +875,27 @@ public class SmallIndexController {
 //	index: _api_root + "user/index",
 //	wechat_district: _api_root + "user/wechat-district",
 //	add_wechat_address: _api_root + "user/add-wechat-address",
+	/**
+	 * 添加地址
+	 * @param
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping("/user/add-wechat-address")
+	public R addwechataddress(AddressDO addressDO)throws Exception{
+
+		R r=new R();
+		try {
+			addressDO.setIsdefault(0);
+			addressService.save(addressDO);
+			r.put("data",addressDO);
+		}catch (Exception e){
+			e.printStackTrace();
+			return R.error();
+		}
+		return r;
+	}
 //	topic_favorite: _api_root + "user/topic-favorite",
 //	topic_favorite_list: _api_root + "user/topic-favorite-list",
 	/**

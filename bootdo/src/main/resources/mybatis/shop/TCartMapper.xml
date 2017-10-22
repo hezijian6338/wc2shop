@@ -93,5 +93,10 @@
 			#{id}
 		</foreach>
 	</delete>
-
+	<select id="batchGet" resultType="com.bootdo.shop.domain.TCartDO">
+		select * from t_cart where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
 </mapper>

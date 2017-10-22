@@ -1,4 +1,4 @@
-var api = require('../../api.js');
+var api1 = require('../../api1.js');
 var app = getApp();
 Page({
 
@@ -26,15 +26,20 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+		 var access_token = wx.getStorageSync("access_token");
         var page = this;
         wx.showNavigationBarLoading();
         app.request({
-            url: api.user.address_list,
+            url: api1.user.address_list,
+				 data:{
+				  userid:access_token,
+				  limit:15
+				},
             success: function (res) {
                 wx.hideNavigationBarLoading();
                 if (res.code == 0) {
                     page.setData({
-                        address_list: res.data.list,
+                        address_list: res.data.rows,
                     });
                 }
             }
@@ -56,10 +61,13 @@ Page({
                 if (e.errMsg != 'chooseAddress:ok')
                     return;
                 wx.showLoading();
+				console.log('e.nationalCode'+e.nationalCode);
+				 var access_token = wx.getStorageSync("access_token");
                 app.request({
-                    url: api.user.add_wechat_address,
+                    url: api1.user.add_wechat_address,
                     method: "post",
                     data: {
+						userid:access_token,
                         national_code: e.nationalCode,
                         name: e.userName,
                         mobile: e.telNumber,

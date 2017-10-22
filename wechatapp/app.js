@@ -5,13 +5,13 @@ var api1 = require('./api1.js');
 App({
   is_on_launch: true,
   onLaunch: function () {
-    // console.log(wx.getSystemInfoSync());
+     console.log(wx.getSystemInfoSync());
     // this.getStoreData();
     //  this.getCatList();
     var access_token = wx.getStorageSync("access_token");
     console.log('token:' + access_token);
-    // if (!access_token)
-    //   this.login();
+    if (!access_token)
+      this.login();
   },
 
   getStoreData: function () {
@@ -78,10 +78,10 @@ App({
                   signature: res.signature
                 },
                 success: function (res) {
-                  console.log(res);
+                 
                   wx.hideLoading();
                   if (res.code == 0) {
-                    console.log(res);
+                   
                   //  wx.setStorageSync("access_token", res.data.access_token);
                      wx.setStorageSync("access_token", res.data.id);
                     wx.setStorageSync("user_info", {

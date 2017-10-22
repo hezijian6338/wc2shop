@@ -48,11 +48,11 @@
 		</if>
 	</select>
 	<select id="list" resultType="com.bootdo.shop.domain.FavoriteDO">
-		select `id`,`addTime`,`deleteStatus`,`type`,`goodsid`,`storeid`,`userid` from t_favorite
+		select `id`,`addTime`,`deletestatus`,`type`,`goodsid`,`storeid`,`userid` from t_favorite
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="addtime != null and addtime != ''"> and addTime = #{addtime} </if>
-		  		  <if test="deletestatus != null and deletestatus != ''"> and deleteStatus = #{deletestatus} </if>
+		  		  <if test="deletestatus != null and deletestatus != ''"> and deletestatus = #{deletestatus} </if>
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
 		  		  <if test="goodsid != null and goodsid != ''"> and goodsid = #{goodsid} </if>
 		  		  <if test="storeid != null and storeid != ''"> and storeid = #{storeid} </if>

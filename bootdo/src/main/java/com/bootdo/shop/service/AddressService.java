@@ -27,4 +27,6 @@ public interface AddressService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    AddressDO selectOne(Map<String, Object> params);
 }

@@ -76,9 +76,11 @@ Page({
     },
     getGoods: function () {
         var page = this;
+        var access_token = wx.getStorageSync("access_token");
         app.request({
             url: api1.default.goods,
             data: {
+              userid: access_token,
                 id: page.data.id
             },
             success: function (res) {
@@ -199,6 +201,7 @@ Page({
     },
 
     submit: function (type) {
+		 var access_token = wx.getStorageSync("access_token");
         var page = this;
         if (!page.data.show_attr_picker) {
             page.setData({
@@ -247,12 +250,13 @@ Page({
                 mask: true,
             });
             app.request({
-                url: api.cart.add_cart,
+                url: api1.cart.add_cart,
                 method: "POST",
                 data: {
-                    goods_id: page.data.id,
-                    attr: JSON.stringify(checked_attr_list),
-                    num: page.data.form.number,
+					userid:access_token,
+                    goodsid: page.data.id,
+               //     attr: JSON.stringify(checked_attr_list),
+                    count: page.data.form.number,
                 },
                 success: function (res) {
                     wx.showToast({
@@ -273,9 +277,11 @@ Page({
             });
             wx.redirectTo({
                 url: "/pages/order-submit/order-submit?goods_info=" + JSON.stringify({
-                    goods_id: page.data.id,
-                    attr: checked_attr_list,
-                    num: page.data.form.number,
+		
+                    goodsid: page.data.id,
+					
+                    //attr: checked_attr_list,
+                    count: page.data.form.number,
                 }),
             });
         }
@@ -384,11 +390,14 @@ Page({
 
     favoriteRemove: function () {
         var page = this;
+		var access_token = wx.getStorageSync("access_token");
         app.request({
-            url: api.user.favorite_remove,
+            url: api1.user.favorite_add,
             method: "post",
             data: {
-                goods_id: page.data.goods.id,
+                type:1,
+                userid:access_token,
+                goodsid: page.data.goods.id,
             },
             success: function (res) {
                 if (res.code == 0) {

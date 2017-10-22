@@ -4,11 +4,11 @@
 <mapper namespace="com.bootdo.shop.dao.TOrderDao">
 
 	<select id="get" resultType="com.bootdo.shop.domain.TOrderDO">
-		select `id`,`totalprice`,`totalcount`,`ordersn`,`status`,`userid`,`createdate`,`paymentid`,`addressid`,`username`,`usercontent` from t_order where id = #{value}
+		select `id`,`totalprice`,`totalcount`,couponid,`ordersn`,`status`,`userid`,`createdate`,`paymentid`,`addressid`,`username`,`usercontent` from t_order where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.shop.domain.TOrderDO">
-		select `id`,`totalprice`,`totalcount`,`ordersn`,`status`,`userid`,`createdate`,`paymentid`,`addressid`,`username`,`usercontent` from t_order
+		select `id`,`totalprice`,`totalcount`,couponid,`ordersn`,`status`,`userid`,`createdate`,`paymentid`,`addressid`,`username`,`usercontent` from t_order
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="totalprice != null and totalprice != ''"> and totalprice = #{totalprice} </if>
@@ -63,7 +63,8 @@
 			`createdate`, 
 			`paymentid`, 
 			`addressid`, 
-			`username`, 
+			`username`,
+			couponid,
 			`usercontent`
 		)
 		values
@@ -76,7 +77,8 @@
 			#{createdate}, 
 			#{paymentid}, 
 			#{addressid}, 
-			#{username}, 
+			#{username},
+			#{couponid},
 			#{usercontent}
 		)
 	</insert>
@@ -93,6 +95,7 @@
 			<if test="paymentid != null">`paymentid` = #{paymentid}, </if>
 			<if test="addressid != null">`addressid` = #{addressid}, </if>
 			<if test="username != null">`username` = #{username}, </if>
+			<if test="couponid != null">`couponid` = #{couponid}, </if>
 			<if test="usercontent != null">`usercontent` = #{usercontent}</if>
 		</set>
 		where id = #{id}
