@@ -2,11 +2,11 @@ package com.bootdo.wap;
 
 
 import com.bootdo.common.utils.MD5Utils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.shop.domain.BannerDO;
 import com.bootdo.shop.domain.CouponDO;
 import com.bootdo.shop.domain.TArticleDO;
 import com.bootdo.shop.domain.TGoodsDO;
-import com.bootdo.shop.domain.TGoodsTypeDO;
 import com.bootdo.shop.domain.TMemberDO;
 import com.bootdo.shop.domain.TStoreDO;
 import com.bootdo.shop.domain.TopicDO;
@@ -22,6 +22,7 @@ import com.bootdo.shop.service.TMemberService;
 import com.bootdo.shop.service.TOrderService;
 import com.bootdo.shop.service.TStoreService;
 import com.bootdo.shop.service.TopicService;
+import com.bootdo.wap.MemberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -49,8 +49,8 @@ import java.util.Map;
 	 *	商品管理
 	 */
 @Controller
-@RequestMapping("/wap")
-public class Wap1IndexController {
+@RequestMapping("/taobao")
+public class TaobaoIndexController {
 	@Autowired
 	private TArticleService tArticleService;
 	@Autowired
@@ -77,9 +77,11 @@ public class Wap1IndexController {
 	private TopicService topicService;
 
 	 @RequestMapping("")
-	  public ModelAndView index(@RequestParam Map<String, Object> params) {
+	  public ModelAndView index() {
+		 Map<String, Object> params1 = new HashMap<>();
+		 Query params = new Query(params1);
 	        try {
-				ModelAndView model = new ModelAndView("/wap/index");
+				ModelAndView model = new ModelAndView("/taobao/index");
 				List<TArticleDO> nav_icon_list = new ArrayList<>();
 				TStoreDO store = tStoreService.get(1L);
 
@@ -104,15 +106,18 @@ public class Wap1IndexController {
 				nav_icon_list.add(c7);nav_icon_list.add(c8);
 
 
-				params.clear();
+				params = new Query(params1);
+				params.put("limit", 3);
 				params.put("sort","clickHit");
 				params.put("order","desc");
 				model.addObject("hitList", tGoodsService.list(params));
-				params.clear();
+				params = new Query(params1);
+				params.put("limit", 3);
 				params.put("sort","create_date");
 				params.put("order","desc");
 				model.addObject("xinpinList", tGoodsService.list(params));
-				params.clear();
+				params = new Query(params1);
+				params.put("limit", 9);
 				params.put("iscom","1");
 				model.addObject("commList", tGoodsService.list(params));
 
@@ -134,7 +139,7 @@ public class Wap1IndexController {
 	@RequestMapping("index1")
 	public ModelAndView index1(HttpServletRequest req) {
 		try {
-			ModelAndView model = new ModelAndView("/wap/index1");
+			ModelAndView model = new ModelAndView("/taobao/index1");
 			Map<String, Object> params = new HashMap<>();
 			params.put("sort","clickHit");
 			params.put("order","desc");
@@ -165,7 +170,7 @@ public class Wap1IndexController {
 			if(goods.getImgmore()!=null && goods.getImgmore().indexOf(",")>-1){
 				mav.addObject("imgs", goods.getImgmore().split(","));
 			}
-			mav.setViewName("wap/goodsDetail");
+			mav.setViewName("taobao/goodsDetail");
 			goods.setClickhit(goods.getClickhit()+1);
 			tGoodsService.update(goods);
 			//查询详情商品的 其他商品
@@ -180,7 +185,7 @@ public class Wap1IndexController {
 
 	 @RequestMapping("/information/{createBy}")
 	  public ModelAndView information(@PathVariable("createBy") Long createBy) {
-		 ModelAndView model = new ModelAndView("/wap/person/information");
+		 ModelAndView model = new ModelAndView("/taobao/person/information");
         TMemberDO member=tMemberService.get(createBy);
         model.addObject("member", member);
 		 return model;
@@ -192,7 +197,7 @@ public class Wap1IndexController {
 	  */
 	 @RequestMapping("/newD/{id}")
 	  public ModelAndView newD(@PathVariable("id") Long id) {
-		 ModelAndView model = new ModelAndView("/wap/person/blog");
+		 ModelAndView model = new ModelAndView("/taobao/person/blog");
 //        Article article=articleService.selectByPrimaryKey(id);
 //        model.addObject("article", article);
 //        List<Article> articleList=articleService.select(new Article());
@@ -207,9 +212,9 @@ public class Wap1IndexController {
 
 	@RequestMapping(value = "login")
 	public ModelAndView toLogin1() {
-		ModelAndView model = new ModelAndView("/wap/login");
+		ModelAndView model = new ModelAndView("/taobao/login");
 		if( MemberUtils.getSessionLoginUser() != null){
-			return new ModelAndView("redirect:/wap");
+			return new ModelAndView("redirect:/taobao");
 		}
 		return model;
 	}
@@ -251,9 +256,9 @@ public class Wap1IndexController {
 		@RequestMapping(value = "reg", method = RequestMethod.GET)
 		public String reg() {
 			if( MemberUtils.getSessionLoginUser() != null){
-				return "redirect:/wap";
+				return "redirect:/taobao";
 			}
-			return "/wap/register";
+			return "/taobao/register";
 		}
 	
 		@RequestMapping(value = "reg", method = RequestMethod.POST)
@@ -300,7 +305,7 @@ public class Wap1IndexController {
 		@RequestMapping("logout")
 		public String logout(HttpServletRequest request) {
 			request.getSession().invalidate();
-			return "redirect:/wap/login";
+			return "redirect:/taobao/login";
 		}
 	
 
