@@ -19,7 +19,7 @@ public interface TGoodsDao {
 	TGoodsDO get(Long id);
 	
 	List<TGoodsDO> list(Map<String, Object> map);
-	
+	List<TGoodsDO> list1(Map<String, Object> map);
 	int count(Map<String, Object> map);
 	
 	int save(TGoodsDO tGoods);

@@ -14,7 +14,9 @@ public class R extends HashMap<String, Object> {
 	public static R error() {
 		return error(1, "操作失败");
 	}
-
+	public static R Empty() {
+		return error(3, "参数为空");
+	}
 	public static R error(String msg) {
 		return error(500, msg);
 	}
@@ -25,7 +27,12 @@ public class R extends HashMap<String, Object> {
 		r.put("msg", msg);
 		return r;
 	}
-
+	public static R Empty(int code, String msg) {
+		R r = new R();
+		r.put("code", code);
+		r.put("msg", msg);
+		return r;
+	}
 	public static R ok(String msg) {
 		R r = new R();
 		r.put("msg", msg);

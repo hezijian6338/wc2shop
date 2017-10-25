@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
@@ -22,10 +23,10 @@
                 <span class="shaomiao"><i class="iconfont icon-saoma"></i></span>
             </div>
         </div>
-        <a class="btn" href="">
+        <a class="btn" href="/taobao/person/msg">
             <i class="iconfont icon-tixing"></i>
         </a>
-        <a class="btn" href="shopcar.html">
+        <a class="btn" href="/taobao/person/cartList">
             <i class="iconfont icon-cart"></i>
         </a>
     </header>
@@ -74,20 +75,22 @@
     <div class="mui-content">
         <div class="banner swiper-container">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="/taobao/uploads/banner1.jpg" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="/taobao/uploads/banner1.jpg" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="/taobao/uploads/banner1.jpg" alt=""></a></div>
-                <div class="swiper-slide"><a href="javascript:void(0)"><img class="swiper-lazy" data-src="/taobao/uploads/banner1.jpg" alt=""></a></div>
-            </div>
+                <div class="swiper-slide" th:each="banner:${bannerList}">
+                    <a th:href="@{'/taobao/bannerDetail/'+${banner.id}}">
+                        <img class="swiper-lazy"
+                             th:src="@{'/upload/banner/'+${banner.img}}" alt="">
+                    </a>
+                </div>
+
             <div class="swiper-pagination"></div>
         </div>
 
         <div class="home-nav ui-box">
             <div class="ui-flex flex-justify-sb">
-                <div><a href=""><img src="/taobao/img/homenav1.png" alt="" /></a></div>
-                <div><a href=""><img src="/taobao/img/homenav2.png" alt="" /></a></div>
-                <div><a href=""><img src="/taobao/img/homenav3.png" alt="" /></a></div>
-                <div><a href=""><img src="/taobao/img/homenav4.png" alt="" /></a></div>
+                <div th:each="brand:${brandList}">
+                    <a th:href="@{'/taobao/brandGoods/'+${brand.id}}"><img th:src="@{'/upload/brand/'+${brand.img}}" alt="" /></a>
+                </div>
+
             </div>
         </div>
 
@@ -131,38 +134,37 @@
                 </div>
             </div>
         </div>
+            <!--优惠劵  -->
+            <div class="home-fashion ui-box ui-border-t">
+                <img class="home-imgtit" src="/taobao/img/hometit3.jpg" alt="" />
+                <div class="fastion-plist mui-row">
+                    <div class="mui-col-xs-4" th:each="coupon:${couponList}">
+                        <a class="item">
+                            <image th:if="${coupon.isReceive == 0}" src="/taobao/images/icon-coupon-index.png"></image>
+                            <image th:if="${coupon.isReceive == 1}" src="/taobao/images/icon-coupon-no.png"></image>
+                            <span class="tit" th:text="${coupon.couponName}">印花卫衣</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--专题  -->
+            <div class="home-fashion ui-box ui-border-t">
+                <img class="home-imgtit" src="/taobao/img/hometit3.jpg" alt="" />
+                <a href=""><img class="db margin-b-s" src="/taobao/uploads/t4.jpg" width="100%" alt="" /></a>
+                <div class="fastion-plist mui-row">
+                    <div class="mui-col-xs-4" th:each="topic:${topicList}">
+                        <a class="item">
+                            <img th:src="@{'/upload/topic/'+${topic.img}}" width="165px" height="165px" alt="" class="figure" />
+                            <span class="tit" th:text="${topic.title}">印花卫衣</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
     </div> <!--mui-content end-->
 </div>
-   
 
-    <footer class="page-footer fixed-footer" id="footer">
-		<ul>
-			<li class="active">
-				<a href="index.html">
-					<img src="/taobao/images/footer01.png"/>
-					<p>首页</p>
-				</a>
-			</li>
-			<li>
-				<a href="assort.html">
-					<img src="/taobao/images/footer002.png"/>
-					<p>分类</p>
-				</a>
-			</li>
-			<li>
-				<a href="shopcar.html">
-					<img src="/taobao/images/footer003.png"/>
-					<p>购物车</p>
-				</a>
-			</li>
-			<li>
-				<a href="self.html">
-					<img src="/taobao/images/footer004.png"/>
-					<p>个人中心</p>
-				</a>
-			</li>
-		</ul>
-	</footer>
+
+    <div th:replace="taobao/layout/footNav"></div>
 
 </body>
 <script type="text/javascript" src="/taobao/js/jquery-1.8.3.min.js" ></script>

@@ -19,7 +19,7 @@ body{background-color: #f2f2f2;}
 .login form ul li img{ width:7%; vertical-align: middle;}
 .login form ul li label{ font-size: 1.4875em; vertical-align: middle; color: #333; margin:0 3%; }
 .login form ul li input{width: 70%; display: inline-block;vertical-align: middle; font-size: 1.4875em; color: #666; border: none;}
-.login form input[type="submit"],
+.login form input[type="submit"],.login form input[type="button"],
 .gobuy-btn{ width: 94%; margin: 5% 3%; display: block; padding: 4% 0;background-color: #FC605A;color: #fff; text-align: center; font-size: 1.7em; border-radius: 0.3em; border: none;}
 .buybanner img{width: 100%;}
 /*首页*/

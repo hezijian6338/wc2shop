@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
          <meta name="format-detection" content="telephone=no" />
     <title>男装专区</title>
-    <link rel="stylesheet" type="text//taobao/css/" href="/taobao/css//loaders.min./taobao/css/"/>
-    <link rel="stylesheet" type="text//taobao/css/" href="/taobao/css//loading./taobao/css/"/>
-    <link rel="stylesheet" type="text//taobao/css/" href="/taobao/css//base./taobao/css/"/>
-    <link rel="stylesheet" type="text//taobao/css/" href="/taobao/css//style./taobao/css/"/>
-     <script src="/taobao/js//jquery.min./taobao/js/" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/taobao/css/loaders.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/taobao/css/loading.css"/>
+    <link rel="stylesheet" type="text/css" href="/taobao/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/taobao/css/style.css"/>
+     <script src="/taobao/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
     	$(window).load(function(){
     		$(".loading").addClass("loader-chanage")
@@ -33,9 +33,9 @@
 <body>
 	<header class="top-header fixed-header">
 		<a class="icona" href="javascript:history.go(-1)">
-				<img src="/taobao/images//left.png"/>
+				<img src="/taobao/images/left.png"/>
 			</a>
-		<h3>男装专区</h3>
+		<h3>地址</h3>
 			
 			<a class="text-top" href="go-address.html">
 				添加
@@ -43,14 +43,14 @@
 	</header>
 	
 	<div class="contaniner fixed-conta">
-		<dl class="address">
+		<dl class="address" th:each="address:${addressList}">
 			<a href="go-address.html">
 				<dt>
-					<p>瑾晨</p>
-					<span>13035059860</span>
+					<p th:text="${address.name}">瑾晨</p>
+					<span th:text="${address.mobile}">13035059860</span>
 					<small>默认</small>
 				</dt>
-				<dd>安徽省合肥市XXXXXXXX</dd>
+				<dd th:text="${address.detail}">安徽省合肥市XXXXXXXX</dd>
 			</a>
 		</dl>
 	</div>

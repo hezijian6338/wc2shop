@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/taobao/css/loading.css"/>
     <link rel="stylesheet" type="text/css" href="/taobao/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="/taobao/css/style.css"/>
-      <script src="/taobao/js/jquery.min./taobao/js/" type="text/javascript" charset="utf-8"></script>
+      <script src="/taobao/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
     	$(window).load(function(){
     		$(".loading").addClass("loader-chanage")
@@ -33,81 +33,50 @@
 	<header class="page-header fixed-header">
 		<input type="search"  /> 
 		<span>
-			<img src="/taobao//taobao//taobao/images////serach.png"/>
+			<img src="/taobao/images/serach.png"/>
 		</span>
 	</header>
 	
 	<div class="contaniner fixed-cont">
 		<aside class="assort">
 			<ul>
-				<li class="active">
-					<img src="/taobao//taobao//taobao/images////classify01.png"/>
-					<span>母婴用品</span>
+				<li class="active" th:each="type:${goodsTypeList}">
+					<img src="/taobao/images/classify01.png"/>
+					<span th:text="${type.name}">母婴用品</span>
 				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify02.png"/>
-					<span>女装正品</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify03.png"/>
-					<span>男装正品</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify04.png"/>
-					<span>内衣服饰</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify05.png"/>
-					<span>化妆品</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify06.png"/>
-					<span>居家百货</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify07.png"/>
-					<span>时尚智能</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify08.png"/>
-					<span>营养保健</span>
-				</li>
-				<li>
-					<img src="/taobao//taobao//taobao/images////classify09.png"/>
-					<span>女鞋箱包</span>
-				</li>
+
 			</ul>
 		</aside>
 		
 		<section class="assort-cont">
 			<figure>
 				<a href="#">
-					<img src="/taobao//taobao//taobao/images////classify-ph01.png"/>
+					<img src="/taobao/images/classify-ph01.png"/>
 				</a>
 			</figure>
 			<dl>
 				<dt>宝宝营养</dt>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph02.png"/>
+						<img src="/taobao/images/classify-ph02.png"/>
 						<p>DNA</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph03.png"/>
+						<img src="/taobao/images/classify-ph03.png"/>
 						<p>钙剂</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph02.png"/>
+						<img src="/taobao/images/classify-ph02.png"/>
 						<p>DNA</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph03.png"/>
+						<img src="/taobao/images/classify-ph03.png"/>
 						<p>钙剂</p>
 					</a>
 				</dd>
@@ -116,25 +85,25 @@
 				<dt>妈妈专区</dt>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph04.png"/>
+						<img src="/taobao/images/classify-ph04.png"/>
 						<p>DNA</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph05.png"/>
+						<img src="/taobao/images/classify-ph05.png"/>
 						<p>钙剂</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph04.png"/>
+						<img src="/taobao/images/classify-ph04.png"/>
 						<p>DNA</p>
 					</a>
 				</dd>
 				<dd>
 					<a href="#">
-						<img src="/taobao//taobao//taobao/images////classify-ph05.png"/>
+						<img src="/taobao/images/classify-ph05.png"/>
 						<p>钙剂</p>
 					</a>
 				</dd>
@@ -146,25 +115,25 @@
 		<ul>
 			<li>
 				<a href="index.html">
-					<img src="/taobao//taobao//taobao/images////footer001.png"/>
+					<img src="/taobao/images/footer001.png"/>
 					<p>首页</p>
 				</a>
 			</li>
 			<li class="active">
 				<a href="assort.html">
-					<img src="/taobao//taobao//taobao/images////footer02.png"/>
+					<img src="/taobao/images/footer02.png"/>
 					<p>分类</p>
 				</a>
 			</li>
 			<li>
 				<a href="shopcar.html">
-					<img src="/taobao//taobao//taobao/images////footer003.png"/>
+					<img src="/taobao/images/footer003.png"/>
 					<p>购物车</p>
 				</a>
 			</li>
 			<li>
 				<a href="self.html">
-					<img src="/taobao//taobao//taobao/images////footer004.png"/>
+					<img src="/taobao/images/footer004.png"/>
 					<p>个人中心</p>
 				</a>
 			</li>

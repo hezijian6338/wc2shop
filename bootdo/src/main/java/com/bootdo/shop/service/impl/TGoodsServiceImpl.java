@@ -26,6 +26,10 @@ public class TGoodsServiceImpl implements TGoodsService {
 	public List<TGoodsDO> list(Map<String, Object> map){
 		return tGoodsDao.list(map);
 	}
+	@Override
+	public List<TGoodsDO> list1(Map<String, Object> map){
+		return tGoodsDao.list1(map);
+	}
 	
 	@Override
 	public int count(Map<String, Object> map){

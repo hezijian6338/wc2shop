@@ -3,15 +3,20 @@ package com.bootdo.wap;
 
 import com.bootdo.common.utils.MD5Utils;
 import com.bootdo.common.utils.Query;
+import com.bootdo.common.utils.R;
 import com.bootdo.shop.domain.BannerDO;
 import com.bootdo.shop.domain.CouponDO;
+import com.bootdo.shop.domain.FavoriteDO;
 import com.bootdo.shop.domain.TArticleDO;
+import com.bootdo.shop.domain.TBrandDO;
 import com.bootdo.shop.domain.TGoodsDO;
 import com.bootdo.shop.domain.TMemberDO;
+import com.bootdo.shop.domain.TReplyDO;
 import com.bootdo.shop.domain.TStoreDO;
 import com.bootdo.shop.domain.TopicDO;
 import com.bootdo.shop.service.BannerService;
 import com.bootdo.shop.service.CouponService;
+import com.bootdo.shop.service.FavoriteService;
 import com.bootdo.shop.service.TArticleService;
 import com.bootdo.shop.service.TBrandService;
 import com.bootdo.shop.service.TCartService;
@@ -20,6 +25,7 @@ import com.bootdo.shop.service.TGoodsService;
 import com.bootdo.shop.service.TGoodsTypeService;
 import com.bootdo.shop.service.TMemberService;
 import com.bootdo.shop.service.TOrderService;
+import com.bootdo.shop.service.TReplyService;
 import com.bootdo.shop.service.TStoreService;
 import com.bootdo.shop.service.TopicService;
 import com.bootdo.wap.MemberUtils;
@@ -75,6 +81,10 @@ public class TaobaoIndexController {
 	private CouponService couponService;
 	@Autowired
 	private TopicService topicService;
+	@Autowired
+	private FavoriteService favoriteService;
+	@Autowired
+	private TReplyService tReplyService;
 
 	 @RequestMapping("")
 	  public ModelAndView index() {
@@ -88,10 +98,13 @@ public class TaobaoIndexController {
 				params.put("limit", 3);
 				List<BannerDO> bannerList = bannerService.list(params);
 
+				params.put("limit", 4);
+				List<TBrandDO> brandList = tBrandService.list(params);
+
 				params.put("limit", 3);
 				List<CouponDO> couponList = couponService.list(params);
 
-				List<TopicDO> tArticleList = topicService.list(params);
+				List<TopicDO> topicList = topicService.list(params);
 
 				TArticleDO c1 = new TArticleDO("全部商品","/pages/list/list?cat_id=","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/86/863a7db352a936743faf8edd5162bb5c.png");
 				TArticleDO c2 = new TArticleDO("商品分类","/pages/cat/cat","switchTab", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/35/3570994c06e61b1f0cf719bdb52a0053.png");
@@ -104,7 +117,7 @@ public class TaobaoIndexController {
 				nav_icon_list.add(c1);nav_icon_list.add(c2);nav_icon_list.add(c3);
 				nav_icon_list.add(c4);nav_icon_list.add(c5);nav_icon_list.add(c6);
 				nav_icon_list.add(c7);nav_icon_list.add(c8);
-
+				model.addObject("nav_icon_list",nav_icon_list);
 
 				params = new Query(params1);
 				params.put("limit", 3);
@@ -117,12 +130,13 @@ public class TaobaoIndexController {
 				params.put("order","desc");
 				model.addObject("xinpinList", tGoodsService.list(params));
 				params = new Query(params1);
-				params.put("limit", 9);
+				params.put("limit", 6);
 				params.put("iscom","1");
 				model.addObject("commList", tGoodsService.list(params));
-
-				model.addObject("tArticleList",tArticleList);model.addObject("nav_icon_list",nav_icon_list);
-				model.addObject("bannerList",bannerList);model.addObject("couponList",couponList);
+				model.addObject("brandList",brandList);
+				model.addObject("topicList",topicList);
+				model.addObject("bannerList",bannerList);
+				model.addObject("couponList",couponList);
 				model.addObject("store",store);
 				model.addObject("nav_icon_list",nav_icon_list);
 				if (MemberUtils.getSessionLoginUser()!=null){
@@ -176,13 +190,49 @@ public class TaobaoIndexController {
 			//查询详情商品的 其他商品
 
 		 Map<String, Object> params = new HashMap<>();
-		 params.put("createBy",goods.getCreateBy());
+		 params.put("typeid",goods.getTypeid());
+		 params.put("limit",3);
+		 Query query =new Query(params);
+		 mav.addObject("typeGoods", tGoodsService.list1(query));
 
-			mav.addObject("ownGoods", tGoodsService.list(params));
-
-			return mav;
+		 String userid = req.getParameter("userid") ;
+		 if(StringUtils.isNoneEmpty(userid)){
+			 params = new HashMap<>();
+			 params.put("userid",userid);
+			 params.put("goodsid",id);
+			 params.put("deletestatus",2);
+			 params.put("type",1);
+			 FavoriteDO favoriteDO = favoriteService.selectOne(params);
+			 if(favoriteDO!=null){
+				 goods.setIs_favorite(1);
+			 }else{
+				 goods.setIs_favorite(2);
+			 }
+		 }
+		 params = new HashMap<>();
+		 params.put("goodsid",id);
+		 params.put("limit",20);
+		  query = new Query(params);
+		 List<TReplyDO> tReplyList = tReplyService.list(query);
+		 mav.addObject("tReplyList", tReplyList);
+		 return mav;
 		}
 
+
+	@RequestMapping("/brandGoods/{id}")
+	public ModelAndView brandGoods(@PathVariable("id") Long id) {
+		ModelAndView model = new ModelAndView("/taobao/person/information");
+		try {
+			Map<String, Object> params = new HashMap<>();
+			params.put("brandid",id);
+			params.put("limit",15);
+			Query query =new Query(params);
+			model.addObject("brandGoods", tGoodsService.list1(query));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return model;
+	}
 	 @RequestMapping("/information/{createBy}")
 	  public ModelAndView information(@PathVariable("createBy") Long createBy) {
 		 ModelAndView model = new ModelAndView("/taobao/person/information");
@@ -229,23 +279,28 @@ public class TaobaoIndexController {
 		 */
 		@RequestMapping(value = "login", method = RequestMethod.POST)
 		public @ResponseBody
-        Map<String, Object> checkLogin(String username,
+		R checkLogin(String username,
                                        String password, HttpServletRequest request) {
+			R r = new R();
+			try {
+				HttpSession session = request.getSession();
+				//code = StringUtils.trim(code);
+				username = StringUtils.trim(username);
+				password = StringUtils.trim(password);
 
-			Map<String, Object> msg = new HashMap<String, Object>();
-			HttpSession session = request.getSession();
-			//code = StringUtils.trim(code);
-			username = StringUtils.trim(username);
-			password = StringUtils.trim(password);
-
-			TMemberDO user = tMemberService.checkUser(username, password);
-			if (null != user) {
-				Map<String, Object> params = new HashMap<>();
-				session.setAttribute(MemberUtils.SESSION_LOGIN_MEMBER, tMemberService.selectOne(params));
-			} else {
-				msg.put("error", "用户名或密码错误");
+				TMemberDO user = tMemberService.checkUser(username, password);
+				if (null != user) {
+					Map<String, Object> params = new HashMap<>();
+					session.setAttribute(MemberUtils.SESSION_LOGIN_MEMBER, tMemberService.selectOne(params));
+					return  r ;
+				} else {
+					return  R.error("用户名或密码错误");
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+				return R.error();
 			}
-			return msg;
+
 		}
 	 
 		 /**
@@ -265,37 +320,35 @@ public class TaobaoIndexController {
 		public @ResponseBody
         Map<String, Object> reg(
                 @RequestParam(value = "password",required=true)String  password,
-                @RequestParam(value = "email",required=false)String email,
-                @RequestParam(value = "phone",required=false)String phone,
                 @RequestParam(value = "username")String username,
                 @RequestParam(value = "passwordRepeat",required=true)String passwordRepeat, HttpServletRequest request) {
-			Map<String, Object> msg = new HashMap<String, Object>();
+			R r = new R();
 			if (!StringUtils.equalsIgnoreCase(password, passwordRepeat)) {
-				msg.put("error", "密码不一致!");
-				return msg;
+				return  R.error("密码不一致!");
 			}
 			String secPwd = null ;
 			TMemberDO m=new TMemberDO();
 			secPwd = MD5Utils.encrypt(password, username);
 			m.setUsername(username);
 			m.setPassword(secPwd);
+			m.setStatus(1);
 			m.setTruename(m.getUsername());
-			m.setPhone(phone);
+			//m.setPhone(phone);
 			try {
 				HttpSession session = request.getSession();
 				int result = tMemberService.save(m);
 				System.out.println(m.getId());
 				if (result == 1) {
 					Map<String, Object> params = new HashMap<>();
-
 					session.setAttribute(MemberUtils.SESSION_LOGIN_MEMBER, tMemberService.get(m.getId()));
 				} else {
-					msg.put("error", "注册失败");
+					return  R.error("注册失败!");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+				return R.error();
 			}
-			return msg;
+			return R.ok();
 		}
 	 	/**
 		 * 用户退出

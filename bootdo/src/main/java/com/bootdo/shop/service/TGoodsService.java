@@ -27,4 +27,6 @@ public interface TGoodsService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    List<TGoodsDO> list1(Map<String, Object> params);
 }
