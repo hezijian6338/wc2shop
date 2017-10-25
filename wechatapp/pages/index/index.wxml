@@ -7,7 +7,7 @@
                 <swiper-item>
                     <navigator url="{{item.url}}">
                         <view class="slide-title">{{item.name}}</view>
-                        <image src="https://zscat.tunnel.qydev.com/upload/brand/{{item.img}}" class="slide-image" mode="aspectFill"/>
+                        <image src="https://zscat.tunnel.qydev.com/upload/banner/{{item.img}}" class="slide-image" mode="aspectFill"/>
                     </navigator>
                 </swiper-item>
             </block>
