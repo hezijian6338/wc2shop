@@ -82,5 +82,10 @@ http://localhost/taobao/login  wap项目   账号 456789  456789
 ![输入图片说明](https://gitee.com/uploads/images/2017/1025/180643_55227726_134431.png "QQ图片20171025175620.png")
 
 
+###  请作者喝杯咖啡
+
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0829/203712_6694b4c1_134431.jpeg "weixin.jpg")
+![输入图片说明](https://git.oschina.net/uploads/images/2017/0829/203723_5567bd56_134431.jpeg "alipay.jpg")
+
 
 
