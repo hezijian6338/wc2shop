@@ -1,3 +1,12 @@
+http://j2shop.tunnel.qydev.com/street/index
+http://j2shop.tunnel.qydev.com/login
+
+http://j2shop.tunnel.qydev.com/disShop/index
+http://j2shop.tunnel.qydev.com/web/index
+
+http://j2shop.tunnel.qydev.com/web/cms/index
+http://j2shop.tunnel.qydev.com/blog/index
+
 ###  **项目介绍** 
 项目大概完成了商城后台，小程序所有页面和功能，wap的部分功能
 
