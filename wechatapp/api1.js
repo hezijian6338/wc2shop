@@ -1,4 +1,4 @@
-var _api_root = 'https://zscat.tunnel.qydev.com/small/';
+var _api_root = 'http://wc2shop.free.ngrok.cc/small/';
 var api1 = {
     index: _api_root + 'default/index',
     default: {
