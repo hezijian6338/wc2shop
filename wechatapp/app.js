@@ -54,10 +54,10 @@ App({
   login: function () {
     var pages = getCurrentPages();
     var page = pages[(pages.length - 1)];
-    wx.showLoading({
-      title: "正在登录",
-      mask: true,
-    });
+    // wx.showLoading({
+    //   title: "正在登录",
+    //   mask: true,
+    // });
     wx.login({
       success: function (res) {
         if (res.code) {
