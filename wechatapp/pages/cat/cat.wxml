@@ -72,7 +72,7 @@
                     <block wx:if="{{current_cat}}">
                         <block wx:for="{{current_cat.goods_list}}">
                             <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
-                                <image style="width: 100%;height: 100%" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
+                                <image style="width: 100%;height: 100%" src="http://wc2shop.free.ngrok.cc/upload/project/{{item.img}}"></image>
                             </navigator>
                         </block>
                     </block>
@@ -80,7 +80,7 @@
                         <block wx:for="{{cat_list}}">
                             <block wx:for="{{item.goods_list}}">
                                 <navigator class="cat-block flex-row" url="/pages/list/list?cat_id={{item.id}}">
-                                    <image style="width: 100%;height: 100%" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
+                                    <image style="width: 100%;height: 100%" src="http://wc2shop.free.ngrok.cc/upload/project/{{item.img}}"></image>
                                 </navigator>
                             </block>
                         </block>
@@ -92,7 +92,7 @@
                     <block wx:if="{{current_cat}}">
                         <view wx:for="{{current_cat.goods_list}}" class="flex-grow-0">
                             <navigator class="cat-item " url="/pages/list/list?cat_id={{item.id}}">
-                                <image class="cat-icon" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
+                                <image class="cat-icon" src="http://wc2shop.free.ngrok.cc/upload/project/{{item.img}}"></image>
                                 <view class="cat-name">{{item.name}}</view>
                             </navigator>
                         </view>
@@ -102,7 +102,7 @@
                             <block wx:for="{{item.goods_list}}">
                                 <view class="flex-grow-0">
                                     <navigator class="cat-item " url="/pages/list/list?cat_id={{item.id}}">
-                                        <image class="cat-icon" src="https://zscat.tunnel.qydev.com/upload/project/{{item.img}}"></image>
+                                        <image class="cat-icon" src="http://wc2shop.free.ngrok.cc/upload/project/{{item.img}}"></image>
                                         <view class="cat-name">{{item.name}}</view>
                                     </navigator>
                                 </view>
