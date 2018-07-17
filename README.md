@@ -1,3 +1,42 @@
+
+<!-- hezijian6338 -->
+cd /project-path/ngrok/
+./sunny clientid 9d3b7941c2b9cb43
+看到隧道状态是 在线 就可以了
+Tomcat部署端口改为8080（最新版本已经改了）
+微信小程序要注册 如果你不想注册可以用我的AppID : wxd98ba2c12f616fc7
+小程序名字暂定 wc2shop  (wechat to shop)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 http://j2shop.tunnel.qydev.com/street/index
 http://j2shop.tunnel.qydev.com/login
 
