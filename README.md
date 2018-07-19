@@ -1,7 +1,8 @@
 
 <!-- hezijian6338 -->
 cd /project-path/ngrok/
-./sunny clientid 9d3b7941c2b9cb43
+./sunny clientid 9d3b7941c2b9cb43  (xxx)   {627222344@qq.com 347668150}
+./sunny clientid 1a6dd11a22d5f44e  (blog)  {hezijian6338@gmial.com  347668150}
 看到隧道状态是 在线 就可以了
 Tomcat部署端口改为8080（最新版本已经改了）
 微信小程序要注册 如果你不想注册可以用我的AppID : wxd98ba2c12f616fc7
