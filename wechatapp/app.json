@@ -38,7 +38,7 @@
     "pages/miaosha/miaosha"
   ],
   "window": {
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "Light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Mall",
     "navigationBarTextStyle": "black",

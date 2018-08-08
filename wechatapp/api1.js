@@ -1,4 +1,5 @@
-var _api_root = 'http://wc2shop.free.ngrok.cc/small/';
+//var _api_root = 'http://wc2shop.free.ngrok.cc/small/';
+var _api_root = 'http://zhbitshop.dragonsking.club/small/';
 var api1 = {
     index: _api_root + 'default/index',
     default: {
