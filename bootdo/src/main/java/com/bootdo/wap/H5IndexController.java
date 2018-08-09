@@ -307,9 +307,14 @@ public class H5IndexController {
 			TArticleDO c6 = new TArticleDO("优惠劵","/pages/coupon/coupon?status=3","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/13/13312a6d56c202330f8c282d8cf84ada.png");
 			TArticleDO c7 = new TArticleDO("我的收藏","/pages/favorite/favorite","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/ca/cab6d8d4785e43bd46dcbb52ddf66f61.png");
 			TArticleDO c8 = new TArticleDO("售后订单","/pages/order/order?status=4","navigate", "http://www.91weiyi.xyz/addons/zjhj_mall/core/web/uploads/image/cf/cfb32a65d845b4e9a9778020ed2ccac6.png");
-			nav_icon_list.add(c1);nav_icon_list.add(c2);nav_icon_list.add(c3);
-			nav_icon_list.add(c4);nav_icon_list.add(c5);nav_icon_list.add(c6);
-			nav_icon_list.add(c7);nav_icon_list.add(c8);
+			nav_icon_list.add(c1);
+			nav_icon_list.add(c2);
+			nav_icon_list.add(c3);
+			nav_icon_list.add(c4);
+			nav_icon_list.add(c5);
+			nav_icon_list.add(c6);
+			nav_icon_list.add(c7);
+			nav_icon_list.add(c8);
 
 			List<TGoodsTypeDO> goodsTypeDOList = tGoodsTypeService.list(params);
 			for (TGoodsTypeDO g :goodsTypeDOList){
@@ -331,8 +336,10 @@ public class H5IndexController {
 			data.put("commList", tGoodsService.list(params));
 
 			data.put("goodsTypeList",goodsTypeDOList);
-			data.put("tArticleList",tArticleList);data.put("nav_icon_list",nav_icon_list);
-			data.put("bannerList",bannerList);data.put("couponList",couponList);
+			data.put("tArticleList",tArticleList);
+			data.put("nav_icon_list",nav_icon_list);
+			data.put("bannerList",bannerList);
+			data.put("couponList",couponList);
 			data.put("store",store);
 			r.put("data",data);
 		}catch (Exception e){
