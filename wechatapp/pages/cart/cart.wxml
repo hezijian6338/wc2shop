@@ -41,7 +41,7 @@
 
             <view class="flex-grow-1 flex-row">
                 <view class="flex-grow-0">
-                    <image class="goods-pic" mode="aspectFill" src="http://wc2shop.free.ngrok.cc/upload/project/{{item.img}}"/>
+                    <image class="goods-pic" mode="aspectFill" src="http://zhbitshop.dragonsking.club/upload/project/{{item.img}}"/>
                 </view>
                 <view class="flex-grow-1 flex-col">
                     <view class="flex-grow-1">
