@@ -1,3 +1,7 @@
+<view>
+  <button open-type="getUserInfo">获取信息</button>
+</view>
+
 <block wx:for="{{module_list}}" wx:for-item="item" wx:key="item.id" wx:for-index="index">
 
     <!-- Banner 开始 -->

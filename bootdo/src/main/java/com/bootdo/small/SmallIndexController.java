@@ -769,6 +769,7 @@ public class SmallIndexController {
 	@RequestMapping("/user/index")
 	public R memberDetail(HttpServletRequest req)throws Exception{
 		Long id = Long.parseLong(req.getParameter("id"));
+//		Long id = Long.valueOf(56);
 		R r=new R();
 		try {
 			TMemberDO goods=tMemberService.get(id);
@@ -1083,7 +1084,9 @@ public class SmallIndexController {
 		if (StringUtils.isBlank(code)) {
 			System.out.println("code is empty");
 		}
-			WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+		System.out.println("有没有要我bbbbbb！#¥¥%%");
+		WxMaJscode2SessionResult session = this.wxService.getUserService().getSessionInfo(code);
+		System.out.println("有没有要我bbbbbb！#¥¥%%");
 		Map<String, Object> params = new HashMap<>();
 		params.put("password",session.getOpenid());
 		TMemberDO seMember = tMemberService.selectOne(params);

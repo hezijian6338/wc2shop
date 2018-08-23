@@ -62,72 +62,77 @@ App({
       success: function (res) {
         if (res.code) {
           var code = res.code;
-          wx.getUserInfo({
+          wx.getSetting({
             success: function (res) {
-              console.log('login.....');
-              //  console.log(code);
-              //  console.log(res);
-              getApp().request({
-                url: api1.passport.login,
-                method: "post",
-                data: {
-                  code: code,
-                  userInfo: res.rawData,
-                  encrypted_data: res.encryptedData,
-                  iv: res.iv,
-                  signature: res.signature
-                },
-                success: function (res) {
-                 
-                  wx.hideLoading();
-                  if (res.code == 0) {
-                   
-                  //  wx.setStorageSync("access_token", res.data.access_token);
-                     wx.setStorageSync("access_token", res.data.id);
-                    wx.setStorageSync("user_info", {
-                      avatar_url: res.data.img,
-                      nickname: res.data.username,
-                      avatar_url: res.data.img,
-                      // parent: res.data.parent,
-                      id: res.data.id
-                    });
-
-                    var parent_id = wx.getStorageSync("parent_id");
-                    var p = getCurrentPages();
-                    // var parent_id = 0;
-
-
-                    if (p[0].options.user_id != undefined) {
-
-                      parent_id = p[0].options.user_id;
-                    }
-                    else if (p[0].options.scene != undefined) {
-                      parent_id = p[0].options.scene;
-                    }
-                    console.log('parentid:' + parent_id, p[0].options.scene, p[0].options.user_id);
-                    getApp().bindParent({
-                      parent_id: parent_id || 0
-                    });
-
-                    if (page == undefined) {
-                      return;
-
-                    }
-                    wx.redirectTo({
-                      url: "/" + page.route + "?" + util.objectToUrlParams(page.options),
-                      fail: function () {
-                        wx.switchTab({
-                          url: "/" + page.route,
-                        });
+              if (res.authSetting['scope.userInfo']) {
+                wx.getUserInfo({
+                  success: function (res) {
+                    console.log('login.....');
+                    console.log(code);
+                    console.log(res);
+                    getApp().request({
+                      url: api1.passport.login,
+                      method: "post",
+                      data: {
+                        code: code,
+                        userInfo: res.rawData,
+                        encrypted_data: res.encryptedData,
+                        iv: res.iv,
+                        signature: res.signature
                       },
-                    });
-                  } else {
-                    wx.showToast({
-                      title: res.msg
+                      success: function (res) {
+                        console.log(res);
+                        wx.hideLoading();
+                        if (res.code == 0) {
+
+                          //  wx.setStorageSync("access_token", res.data.access_token);
+                          wx.setStorageSync("access_token", res.data.id);
+                          wx.setStorageSync("user_info", {
+                            avatar_url: res.data.img,
+                            nickname: res.data.username,
+                            avatar_url: res.data.img,
+                            // parent: res.data.parent,
+                            id: res.data.id
+                          });
+
+                          var parent_id = wx.getStorageSync("parent_id");
+                          var p = getCurrentPages();
+                          // var parent_id = 0;
+
+
+                          if (p[0].options.user_id != undefined) {
+
+                            parent_id = p[0].options.user_id;
+                          } else if (p[0].options.scene != undefined) {
+                            parent_id = p[0].options.scene;
+                          }
+                          console.log('parentid:' + parent_id, p[0].options.scene, p[0].options.user_id);
+                          getApp().bindParent({
+                            parent_id: parent_id || 0
+                          });
+
+                          if (page == undefined) {
+                            return;
+
+                          }
+                          wx.redirectTo({
+                            url: "/" + page.route + "?" + util.objectToUrlParams(page.options),
+                            fail: function () {
+                              wx.switchTab({
+                                url: "/" + page.route,
+                              });
+                            },
+                          });
+                        } else {
+                          wx.showToast({
+                            title: res.msg
+                          });
+                        }
+                      }
                     });
                   }
-                }
-              });
+                });
+              }
             }
           });
         } else {
@@ -137,6 +142,7 @@ App({
       }
     });
   },
+  
   request: function (object) {
     var access_token = wx.getStorageSync("access_token");
     console.log('token:' + access_token);

@@ -10,6 +10,7 @@ App({
   //  this.getCatList();
      var access_token = wx.getStorageSync("access_token");
      console.log('token:'+access_token);
+     console.log('Hello man');
      if (!access_token)
      this.login();
   },
@@ -65,8 +66,8 @@ App({
           wx.getUserInfo({
             success: function (res) {
               console.log('login.....');
-            //  console.log(code);
-            //  console.log(res);
+              console.log(code);
+              console.log(res);
               getApp().request({
                 url: api.passport.login,
                 method: "post",
