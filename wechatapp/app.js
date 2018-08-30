@@ -5,13 +5,15 @@ var api1 = require('./api1.js');
 App({
   is_on_launch: true,
   onLaunch: function () {
-     console.log(wx.getSystemInfoSync());
+    console.log(wx.getSystemInfoSync());
     // this.getStoreData();
-    //  this.getCatList();
+    // this.getCatList();
     var access_token = wx.getStorageSync("access_token");
-    console.log('token:' + access_token);
-    if (!access_token)
-      this.login();
+    console.log('1token:' + access_token);
+    // if (access_token)
+    //   wx.redirectTo({
+    //     url: "/pages/index/index"
+    //   })
   },
 
   getStoreData: function () {
@@ -29,10 +31,10 @@ App({
           wx.setStorageSync("contact_tel", res.data.storetelephone);
           wx.setStorageSync("storeower", res.data.storeower);
         }
-      },
-      complete: function () {
-        page.login();
       }
+      // complete: function () {
+      //   page.login();
+      // }
     });
   },
 
@@ -69,7 +71,8 @@ App({
                   success: function (res) {
                     console.log('login.....');
                     console.log(code);
-                    console.log(res);
+                    console.log(res.rawData + ";encry:" + res.encrypted_data + ";iv:" + res.iv + ";signature:" + res.signature);
+                    console.log(api1.passport.login);
                     getApp().request({
                       url: api1.passport.login,
                       method: "post",
@@ -81,7 +84,7 @@ App({
                         signature: res.signature
                       },
                       success: function (res) {
-                        console.log(res);
+                        console.log("login---res:" + res);
                         wx.hideLoading();
                         if (res.code == 0) {
 
@@ -136,16 +139,16 @@ App({
             }
           });
         } else {
-          //console.log(res);
+          console.log("fail:" + res);
         }
 
       }
     });
   },
-  
+
   request: function (object) {
     var access_token = wx.getStorageSync("access_token");
-    console.log('token:' + access_token);
+    console.log('2token:' + access_token + ";object data code:" + object.url);
     if (access_token) {
       if (!object.data)
         object.data = {};
@@ -160,11 +163,14 @@ App({
       method: object.method || "GET",
       dataType: object.dataType || "json",
       success: function (res) {
+        console.log("res.data.code:" + res.data.code);
+
         if (res.data.code == -1) {
           getApp().login();
         } else {
           if (object.success)
-            object.success(res.data);
+            console.log("res.data:" + res.data);
+          object.success(res.data);
         }
       },
       fail: function (res) {
@@ -224,7 +230,9 @@ App({
       if (parent_id != 0) {
         getApp().request({
           url: api.share.bind_parent,
-          data: { parent_id: object.parent_id },
+          data: {
+            parent_id: object.parent_id
+          },
           success: function (res) {
             if (res.code == 0) {
               user_info.parent = res.data
