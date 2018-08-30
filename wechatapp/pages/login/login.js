@@ -1,6 +1,7 @@
 var api = require('../../api.js');
 var api1 = require('../../api1.js');
 var app = getApp();
+var util = require('../../utils/utils.js');
 
 Page({
     data: {
@@ -19,6 +20,7 @@ Page({
                         success: function (res) {
                             var access_token = wx.getStorageSync("access_token");
                             console.log('11token:' + access_token);
+                            if(access_token)
                             wx.switchTab({
                                 url: "../index/index"
                             })
